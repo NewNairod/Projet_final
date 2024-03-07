@@ -27,32 +27,36 @@ const ProductScreen = () => {
 
     return (
         <>
-            <Link className='btn btn-light my-3'>
+            <Link className='btn btn-light my-3' to='/'>
                 Retour
             </Link>
-            {loading ? (<Loader />) : (error) ? (<Message variant='danger'>{error}</Message>) : (<Row>
-                <Col md={6}>
-                    <Image src={product.image} alt={product.name} fluid />
-                </Col>
-                <Col md={3}>
-                    <ListGroup variant='flush'>
-                        <ListGroup.Item>
-                            <h2>{product.name}</h2>
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            <Rating value={product.rating} text={`${product.numReviews} avis`} />
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            Prix : {product.price}
-                        </ListGroup.Item>
-                        <ListGroup.Item>
-                            Description : {product.description}
-                        </ListGroup.Item>
-                    </ListGroup>
-                </Col>
-                <Col md={3}>
-                    <Card>
-                        <ListGroup variant='flush'>
+            {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
+                <Row>
+                    <Col md={6}>
+                        <Image src={product.image} alt={product.name} fluid />
+                        {/* Afficher les autres images ici si nécessaire */}
+                        {/* product.images.map((image) => (<Image src={image} key={image} fluid />)) */}
+                        </Col>
+                        <Col md={3}>
+                            <ListGroup variant='flush'>
+                                <ListGroup.Item>
+                                    <h3><strong>{product.name}</strong></h3>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Rating value={product.rating} text={`${product.numReviews} avis`} />
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <strong>Prix : </strong> {product.price} €
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <strong>Description : </strong> <br></br> {product.description}
+                                </ListGroup.Item>
+                                {/* Ajouter ici les autres détails du produit comme le type, etc. */}
+                            </ListGroup>
+                        </Col>
+                        <Col md={3}>
+                            <Card>
+                                <ListGroup variant='flush'>
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Prix : </Col>
@@ -83,20 +87,23 @@ const ProductScreen = () => {
                                     </Row>
                                 </ListGroup.Item>
                             )}
-                            <ListGroup.Item>
-                                <Button onClick={addToCartHandler}
-                                    className='btn-black' type='button' disabled={product.countInStock === 0}>
-                                    Ajoutez au panier
-                                </Button>
-                            </ListGroup.Item>
-
-                        </ListGroup>
-                    </Card>
-                </Col>
-            </Row>)}
-
-        </>
-    )
-}
-
-export default ProductScreen
+                                    <ListGroup.Item>
+                                        <Button
+                                            onClick={addToCartHandler}
+                                            className='btn-block'
+                                            type='button'
+                                            style={{ backgroundColor: 'red', borderColor: 'red' }}
+                                            disabled={product.countInStock === 0}>
+                                            Ajoutez au panier
+                                        </Button>
+                                    </ListGroup.Item>
+                                </ListGroup>
+                            </Card>
+                        </Col>
+                    </Row>
+                )}
+            </>
+        );
+    }
+    
+    export default ProductScreen;

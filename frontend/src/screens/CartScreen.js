@@ -11,7 +11,7 @@ const CartScreen = () => {
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const qty = searchParams.get('qty')
-
+    
     console.log(` product id ${id} et qty ${qty}`)
 
     const dispatch = useDispatch()
@@ -24,7 +24,8 @@ const CartScreen = () => {
             dispatch(addToCart(id, qty))
         }
     }, [dispatch, id, qty])
-
+    const numberOfItems = cartItems.reduce((acc, item) => acc + Number(item.qty), 0);
+    const totalPrice = cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2);
     const removeFromCartHandler = (id) => {
         console.log(`remove ref ${id} from cart`);
         dispatch(removeFromCart(id))
@@ -38,14 +39,14 @@ const CartScreen = () => {
 
     return (
         <Row>
-            <Col>
-                <h1>Panier</h1>
-                {cartItems.lenght === 0 ? (
-                    <Message>
-                        Votre panier est vide <Link to='/'>Retourner à l'accueil</Link>
-                    </Message>
-                ) : (
-                    <ListGroup variant='flush'>
+        <Col md={8}>
+            <h1>Panier</h1>
+            {cartItems.length === 0 ? (
+                <Message>
+                    Votre panier est vide <Link to='/'>Retourner à l'accueil</Link>
+                </Message>
+            ) : (
+                <ListGroup variant='flush'>
                         {cartItems.map(item => (
                             <ListGroup.Item key={item.product}>
                                 <Row>
@@ -84,13 +85,24 @@ const CartScreen = () => {
                 <Card>
                     <ListGroup variant="flush">
                         <ListGroup.Item>
-                            <h2>Sous Total ({cartItems.reduce((acc, item) => acc + Number(item.qty), 0)})</h2>
-                            {cartItems.reduce((acc, item) => acc + Number(item.qty) * Number(item.price), 0).toFixed(0)} €
+                        <h2>
+                        <strong> Sous-total ({numberOfItems} {numberOfItems > 1 ? 'articles' : 'article'}) </strong>
+                            </h2>
+                            <strong> Total TTC : </strong> {totalPrice} €
                         </ListGroup.Item>
                         <ListGroup.Item>
-                            <Button type="button" className="btn-block" disabled={cartItems.lenght === 0} onClick={checkoutHandler}>
-                                Proceder au paiement
-                            </Button>
+                            <div className="d-grid">
+                                <Button type="button" className="btn-block" style={{ backgroundColor: 'red', borderColor: 'red' }} disabled={cartItems.length === 0} onClick={checkoutHandler}>
+                                    Commander
+                                </Button>
+                            </div>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            <div className="d-grid">
+                                <Button type="button" variant="light" onClick={() => navigate('/')}>
+                                    Continuer vos achats
+                                </Button>
+                            </div>
                         </ListGroup.Item>
                     </ListGroup>
                 </Card>
@@ -99,4 +111,4 @@ const CartScreen = () => {
     )
 }
 
-export default CartScreen
+export default CartScreen;

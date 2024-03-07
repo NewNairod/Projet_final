@@ -1,0 +1,42 @@
+version: '3'
+services:
+  backend:
+    build: .
+    env_file:
+      - ./.env  # Utilisation d'un fichier .env pour les variables d'environnement
+    ports:
+      - "5000:5000"  # Exposition du port 5000 pour accéder au backend
+    depends_on:
+      - mongodb  # Assure que MongoDB est lancé avant le backend
+    volumes:
+      - ./backend:/usr/src/app  # Montage du code source pour le développement
+      - /usr/src/app/node_modules  # Maintien des node_modules à l'intérieur du conteneur
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/ProjectDB  # URI de connexion à MongoDB
+    networks:
+      - goodies-network  # Réseau pour la communication inter-conteneur
+
+  mongodb:
+    image: mongo:latest  # Utilisation de la dernière image MongoDB
+    ports:
+      - "27017:27017"  # Exposition du port MongoDB
+    volumes:
+      - mongodb-data:/data/db  # Persistance des données MongoDB
+    networks:
+      - goodies-network  # Même réseau que le backend
+
+  frontend:
+    build: ./frontend  # Chemin vers le Dockerfile du frontend
+    ports:
+      - "3000:3000"  # Exposition du port 3000 pour accéder au frontend
+    depends_on:
+      - backend  # Assure que le backend est lancé avant le frontend
+    networks:
+      - goodies-network  # Même réseau que le backend et MongoDB
+
+networks:
+  goodies-network:  # Définition du réseau
+    driver: bridge
+
+volumes:
+  mongodb-data:  # Définition du volume pour MongoDB

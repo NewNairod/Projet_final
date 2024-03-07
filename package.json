@@ -1,13 +1,12 @@
 {
-  "name": "proshop",
+  "name": "goodiesformangas",
   "version": "1.0.0",
   "description": "MERN shopping cart app",
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon backend/server.js",
-    "server": "nodemon backend/server.js",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder",
@@ -26,6 +25,7 @@
     "mongoose": "^7.0.2"
   },
   "devDependencies": {
-    "concurrently": "^7.6.0"
+    "concurrently": "^7.6.0",
+    "jest": "^29.7.0"
   }
 }
