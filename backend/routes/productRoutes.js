@@ -1,22 +1,11 @@
 import express from 'express'
 const router = express.Router()
-import { getProducts, getProductById } from '../controllers/productController.js'
+import { protect } from '../middleware/authMiddleware.js';
+// Importation de la nouvelle fonction de contrôleur
+import { getProducts, getProductById, createProduct } from '../controllers/productController.js';
 
-router.route('/').get(getProducts)
-router.route('/:id').get(getProductById)
-router.get('/', async (req, res) => {
-    const keyword = req.query.name
-        ? {
-              name: {
-                  $regex: req.query.name,
-                  $options: 'i', // i pour case insensitive
-              },
-          }
-        : {};
+router.route('/').post( protect ,createProduct).get(getProducts);
+router.route('/:id').get(getProductById);
 
-    const products = await Product.find({ ...keyword });
-    res.json(products);
-});
-
-
-export default router
+// Exportation du routeur
+export default router;

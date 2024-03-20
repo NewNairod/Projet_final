@@ -61,3 +61,25 @@ h2 {
   background-color: #c82333; /* Couleur de fond au survol pour le bouton */
   border-color: #bd2130; /* Couleur de bordure au survol pour le bouton */
 }
+.redButton {
+  background-color: red;
+  border-color: red;
+}
+
+.addButton {
+  float: right;
+  background-color: red;
+  color: white;
+}
+
+.btn-favorite {
+  background-color: red;
+  border-color: red;
+  color: white;
+}
+
+.btn-favorite:hover {
+  background-color: darkred;
+  border-color: darkred;
+  color: white;
+}

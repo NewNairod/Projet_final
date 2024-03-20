@@ -28,7 +28,8 @@ const initialState = {
         shippingAddress: shippingAddressFromStorage,
         paymentMethod: paymentMethodFromStorage
     },
-    userLogin: { userInfo: userInfoFromStorage }
+    userLogin: { userInfo: userInfoFromStorage },
+    userDetails: { user: { favorites: [] }, loadingFavorites: false, errorFavorites: null }
 }
 
 const middleware = [thunk]

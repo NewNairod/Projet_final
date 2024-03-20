@@ -4,39 +4,34 @@ import User from '../models/userModel.js'
 
 // Middleware pour protéger les routes
 const protect = asyncHandler(async (req, res, next) => {
-    let token // Initialise une variable pour stocker le token JWT
+    let token;
 
-    // Essaie de récupérer et de vérifier le token JWT de l'en-tête d'autorisation
-    try {
-        // Vérifie si l'en-tête d'autorisation contient un token
-        if (req.headers.authorization) {
-            token = req.headers.authorization // Stocke le token de l'en-tête d'autorisation
-            // Décode le token pour récupérer l'ID de l'utilisateur
-            const decoded = jwt.verify(token, process.env.JWT_SECRET)
-            // Recherche l'utilisateur correspondant dans la base de données, sans inclure le mot de passe dans la réponse
-            try {
-                const user = await User.findById(decoded.id).select('-password')
-                // Si l'utilisateur est trouvé, attache l'utilisateur à l'objet de requête et passe au middleware suivant
-                if (user) {
-                    req.user = user
-                    next()
-                } else {
-                    // Si aucun utilisateur n'est trouvé avec ce token, renvoie une erreur 404
-                    res.status(404).json({ message: "Not Found User with this token" })
-                }
-            } catch (error) {
-                // Gère les erreurs lors de la recherche de l'utilisateur dans la base de données
-                res.status(401).json({ message: `Not authorized, token failed with error => ${error.message}` })
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        try {
+            // Extrait le token du header
+            token = req.headers.authorization.split(' ')[1];
+
+            // Décode le token
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+            // Trouve l'utilisateur correspondant à l'ID dans le token décodé
+            const user = await User.findById(decoded.id).select('-password');
+
+            if (!user) {
+                return res.status(404).json({ message: "Utilisateur non trouvé avec ce token" });
             }
-        }
-    } catch (error) {
-        // Gère les erreurs liées à la vérification du token JWT
-        res.status(401).json({ message: `Not authorized, token failed with error => ${error.message}` })
-    }
-    // Si aucun token n'est fourni, renvoie une erreur 401
-    if (!token) {
-        res.status(401).json({ message: 'Not authorized, no token' })
-    }
-})
 
-export { protect }
+            // Attribue l'utilisateur à la requête et passe au middleware suivant
+            req.user = user;
+            next();
+        } catch (error) {
+            // Log pour débogage en cas d'erreur de vérification du token
+            console.error('Erreur lors de la vérification du token:', error);
+            return res.status(401).json({ message: `Non autorisé, échec du token avec l'erreur: ${error.message}` });
+        }
+    } else {
+        return res.status(401).json({ message: 'Non autorisé, aucun token fourni' });
+    }
+});
+
+export { protect };

@@ -7,7 +7,8 @@ COPY . .
 RUN npm run build
 
 # Étape de production
-FROM nginx:stable-alpine as production-stage
+FROM nginx as production-stage
 COPY --from=build-stage /app/build /usr/share/nginx/html
-EXPOSE 3000
+# Supprimez le fichier de configuration par défaut et ajoutez le vôtre
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

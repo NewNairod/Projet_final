@@ -1,52 +1,42 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import Message from '../components/Message.js'
-import FormContainer from '../components/FormContainer.js'
-import { Row, Col, Form, Button, FormLabel, FormControl, Card } from 'react-bootstrap'
-import { register } from '../actions/userActions.js'
-import Loader from '../components/Loader.js'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import Message from '../components/Message.js';
+import FormContainer from '../components/FormContainer.js';
+import { Row, Col, Form, Button, FormLabel, FormControl, Card } from 'react-bootstrap';
+import { register } from '../actions/userActions.js';
+import Loader from '../components/Loader.js';
 
 const RegisterScreen = () => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [message, setMessage] = useState(null);
 
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
-    const [message, setMessage] = useState(null)
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-
-    const dispatch = useDispatch()
-
-    const userRegister = useSelector(state => state.userRegister)
-    const { loading, error, userInfo } = userRegister
-
-    const [searchParams] = useSearchParams()
-    const redirect = searchParams.get('redirect') ? searchParams.get('redirect') : '/'
-
-    const navigate = useNavigate()
-
-    //const [searchParams] = useSearchParams()
-    //const redirect = searchParams.get('redirect') ? searchParams.get('redirect') : '/'
-
+    const userRegister = useSelector(state => state.userRegister);
+    const { loading, error, userInfo } = userRegister;
 
     useEffect(() => {
         if (userInfo) {
-            navigate(redirect)
+            navigate('/login');
         }
-    }, [userInfo, navigate, redirect])
+    }, [userInfo, navigate]);
 
     const submitHandler = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         if (password !== confirmPassword) {
-            setMessage('Le mot de passe doit être identique')
-        } else if (name === "" || email === "" || password === "") {
-            setMessage('name, email and password not be empty')
+            setMessage('Le mot de passe doit être identique.');
+        } else if (!name || !email || !password) {
+            setMessage('Veuillez remplir tous les champs.');
         } else {
-            dispatch(register(name, email, password))
+            dispatch(register(name, email, password));
         }
-    }
+    };
 
     return (
         <FormContainer>
@@ -58,53 +48,60 @@ const RegisterScreen = () => {
                     {loading && <Loader />}
                     <Form onSubmit={submitHandler}>
                         <Form.Group controlId='name' className="mb-3">
-                            <Form.Label>Nom</Form.Label>
-                            <Form.Control
-                                type='name'
+                            <FormLabel>Nom</FormLabel>
+                            <FormControl
+                                type='text'
                                 placeholder='Saisir votre nom'
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                             />
                         </Form.Group>
+
                         <Form.Group controlId='email' className="mb-3">
-                            <Form.Label>Adresse Email</Form.Label>
-                            <Form.Control
+                            <FormLabel>Email</FormLabel>
+                            <FormControl
                                 type='email'
-                                placeholder='Saisir votre adresse E-mail'
+                                placeholder='Saisir votre email'
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </Form.Group>
+
                         <Form.Group controlId='password' className="mb-3">
-                            <Form.Label>Mot de passe</Form.Label>
-                            <Form.Control
+                            <FormLabel>Mot de passe</FormLabel>
+                            <FormControl
                                 type='password'
                                 placeholder='Saisir votre mot de passe'
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </Form.Group>
+
                         <Form.Group controlId='confirmPassword' className="mb-3">
-                            <Form.Label>Confirmation mot de passe</Form.Label>
-                            <Form.Control
+                            <FormLabel>Confirmer le mot de passe</FormLabel>
+                            <FormControl
                                 type='password'
-                                placeholder='Confirmez votre mot de passe'
+                                placeholder='Confirmer votre mot de passe'
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                         </Form.Group>
-                        <Button type="submit" variant="primary" className="w-100">Inscription</Button>
+
+                        <Button type='submit' variant='primary' className='w-100'>
+                            Inscription
+                        </Button>
                     </Form>
-                    <Row className="py-3">
-                        <Col className="text-center">
-                            Vous avez déjà un compte ? 
-                            <Link to={redirect ? `/login?redirect=${redirect}` : `/login`}> Connectez-vous</Link>
+
+                    <Row className='py-3'>
+                        <Col className='text-center'>
+                            Vous avez déjà un compte ?{' '}
+                            <Link to='/login'>Connectez-vous</Link>
                         </Col>
                     </Row>
                 </Card.Body>
             </Card>
         </FormContainer>
-    )
-}
+    );
+};
 
-export default RegisterScreen
+export default RegisterScreen;

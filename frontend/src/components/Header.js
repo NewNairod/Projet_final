@@ -29,6 +29,7 @@ const Header = () => {
             navigate('/');
         }
     };
+
     return (
         <header>
             <Navbar bg='dark' variant='dark' collapseOnSelect>
@@ -37,21 +38,24 @@ const Header = () => {
                         <Navbar.Brand>Goodies for mangas</Navbar.Brand>
                     </LinkContainer>
                     <Form inline onSubmit={handleSearchSubmit}>
-                    <InputGroup>
-                        <FormControl
-                            type='text'
-                            placeholder='Rechercher un manga...'
-                            className='mr-sm-2'
-                            onChange={handleSearchChange}
-                            value={search}
-                        />
-        <Button type="submit" style={{ backgroundColor: 'red', borderColor: 'red', color: 'white' }}>Rechercher</Button>
-    </InputGroup>
-</Form>
+                        <InputGroup>
+                            <FormControl
+                                type='text'
+                                placeholder='Rechercher un manga...'
+                                className='mr-sm-2'
+                                onChange={handleSearchChange}
+                                value={search}
+                            />
+                            <Button type="submit" style={{ backgroundColor: 'red', borderColor: 'red', color: 'white' }}>Rechercher</Button>
+                        </InputGroup>
+                    </Form>
 
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='ml-auto'>
+                            <LinkContainer to="/contact">
+                                <Nav.Link>Contact</Nav.Link>
+                            </LinkContainer>
                             <LinkContainer to='/cart'>
                                 <Nav.Link><i className='fas fa-shopping-cart'></i>Panier</Nav.Link>
                             </LinkContainer>
@@ -59,6 +63,9 @@ const Header = () => {
                                 <NavDropdown title={userInfo.name} id='username'>
                                     <LinkContainer to='/profile'>
                                         <NavDropdown.Item>Profil</NavDropdown.Item>
+                                    </LinkContainer>
+                                    <LinkContainer to='/favorites'>
+                                        <NavDropdown.Item>Favoris</NavDropdown.Item>
                                     </LinkContainer>
                                     <NavDropdown.Item onClick={logoutHandler}>Déconnexion</NavDropdown.Item>
                                 </NavDropdown>
@@ -69,13 +76,11 @@ const Header = () => {
                             )}
 
                         </Nav>
-                        
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-
         </header>
     )
 }
 
-export default Header
+export default Header;
