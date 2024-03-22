@@ -24,7 +24,11 @@ app.use(express.json())
 
 // Route de base pour vérifier le bon fonctionnement de l'API
 app.get('/', (req, res) => {
-    res.send('API is running');
+    res.send('API is runningxvnb');
+})
+
+app.get('/api', (req, res) => {
+  res.send('API is running v2');
 })
 
 app.use((req, res, next) => {

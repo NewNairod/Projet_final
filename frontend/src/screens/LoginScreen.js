@@ -66,7 +66,7 @@ const LoginScreen = () => {
                     </Form>
                     <Row className="py-3">
                         <Col className="text-center">
-                            Nouveau utilisateur ? 
+                            Nouvel utilisateur ? 
                             <Link to={redirect ? `/register?redirect=${redirect}` : `/register`}> Inscrivez-vous</Link>
                         </Col>
                     </Row>

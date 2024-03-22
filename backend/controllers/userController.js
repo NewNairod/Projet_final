@@ -5,9 +5,9 @@ import User from '../models/userModel.js'
 // Authentifie un utilisateur et renvoie un token JWT si les identifiants sont valides
 const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body // Extrait email et mot de passe de la requête
-
+    console.log(`email = ${email} password = ${password}`);
     const user = await User.findOne({ email }) // Cherche un utilisateur par email
-
+    console.log(`utilisateur trouvé = ${JSON.stringify(user)}`);
     // Vérifie si l'utilisateur existe et si le mot de passe correspond
     if (user && (await user.matchPassword(password))) {
         // Si authentification réussie, renvoie les infos de l'utilisateur avec un token

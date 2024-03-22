@@ -11,7 +11,8 @@ RUN npm install nodemon \ && npm install
 
 # Copier le répertoire backend au complet dans le conteneur
 COPY backend/ ./
-
+COPY .env ./
+# COPY docker-compose.yml ./
 # Exposer le port sur lequel votre serveur est configuré pour écouter
 EXPOSE 5000
 
