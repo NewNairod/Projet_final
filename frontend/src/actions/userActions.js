@@ -172,10 +172,9 @@ export const addFavorite = (productId) => async (dispatch, getState) => {
         const { userLogin: { userInfo } } = getState();
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
-        await axios.put(`/api/users/favorites/add`, { productId }, config);
+        const response = await axios.put(`/api/users/favorites/add`, { productId }, config);
 
-        dispatch({ type: USER_ADD_FAVORITE_SUCCESS });
-        // Optionnel : Recharger les données ou effectuer d'autres actions après succès
+        dispatch({ type: USER_ADD_FAVORITE_SUCCESS, payload: productId });
     } catch (error) {
         dispatch({
             type: USER_ADD_FAVORITE_FAIL,
@@ -196,7 +195,6 @@ export const removeFavorite = (productId) => async (dispatch, getState) => {
         await axios.put(`/api/users/favorites/remove`, { productId }, config);
 
         dispatch({ type: USER_REMOVE_FAVORITE_SUCCESS, payload: productId });
-        // Optionnel : Recharger les données ou effectuer d'autres actions après succès
     } catch (error) {
         dispatch({
             type: USER_REMOVE_FAVORITE_FAIL,

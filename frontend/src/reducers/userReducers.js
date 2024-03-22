@@ -62,19 +62,19 @@ export const userDetailsReducer = (state = { user: { favorites: [] } }, action) 
             return { loading: false, error: action.payload };
         case USER_ADD_FAVORITE_REQUEST:
             return { ...state, updatingFavorites: true };
-        case USER_ADD_FAVORITE_SUCCESS:
-            if (!action.payload) {
-                console.error('Payload is undefined in USER_ADD_FAVORITE_SUCCESS');
-                return state; // Retourne l'état actuel sans le modifier
-            }
-            return {
-                ...state, 
-                updatingFavorites: false, 
-                user: { 
-                    ...state.user, 
-                    favorites: [...state.user.favorites, action.payload.productId]
+            case USER_ADD_FAVORITE_SUCCESS:
+                if (!action.payload) {
+                    console.error('Payload is undefined in USER_ADD_FAVORITE_SUCCESS');
+                    return state; // Retourne l'état actuel sans le modifier
                 }
-            };
+                return {
+                    ...state, 
+                    updatingFavorites: false,
+                    user: { 
+                        ...state.user,
+                        favorites: [...state.user.favorites, { _id: action.payload }] // Simule l'ajout
+                    }
+                };
         case USER_ADD_FAVORITE_FAIL:
             return { ...state, updatingFavorites: false, error: action.payload };
         case USER_REMOVE_FAVORITE_REQUEST:

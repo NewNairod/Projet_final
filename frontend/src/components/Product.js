@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Rating from './Rating';
@@ -10,13 +10,20 @@ import { faHeart as solidHeart, faTimes as solidTimes } from '@fortawesome/free-
 const Product = ({ product }) => {
     const { userInfo } = useSelector(state => state.userLogin);
     const { user } = useSelector(state => state.userDetails);
+    const [toggleFavoriteV, setToggleFavoriteV] = useState(false);
     const dispatch = useDispatch();
+    
 
     // Détermination si le produit est dans les favoris en vérifiant si son ID est présent dans le tableau des favoris
     const isFavorite = user?.favorites?.some(favorite => favorite._id === product._id);
+    
+    console.log("toggleFavorite :", toggleFavoriteV);
+    console.log("isFavorite :", isFavorite);
 
     // Fonction pour ajouter ou supprimer un produit des favoris
     const toggleFavorite = () => {
+        setToggleFavoriteV(!toggleFavoriteV);
+        // console.log("toggleFavorite :", toggleFavoriteV);
         if (isFavorite) {
             dispatch(removeFavorite(product._id));
         } else {
@@ -40,14 +47,24 @@ const Product = ({ product }) => {
                 </Card.Text>
                 <Card.Text as='h3'>{`${product.price} €`}</Card.Text>
                 {userInfo && (
-                    <Button 
-                        variant={isFavorite ? 'danger' : 'outline-primary'} 
-                        onClick={toggleFavorite} 
-                        className="btn-favorite"
-                    >
-                        <FontAwesomeIcon icon={isFavorite ? solidTimes : solidHeart} size="lg" />
-                    </Button>
-                )}
+            <Button
+              variant={isFavorite ? "danger" : "outline-primary"}
+              onClick={toggleFavorite}
+              className="btn-favorite"
+            >
+              {!toggleFavoriteV ? (
+                <FontAwesomeIcon
+                  icon={isFavorite ? solidTimes : solidHeart}
+                  size="lg"
+                />
+              ):(
+                <FontAwesomeIcon
+                  icon={isFavorite ? solidHeart : solidTimes}
+                  size="lg"
+                />
+              )}
+            </Button>
+          )}
             </Card.Body>
         </Card>
     );
