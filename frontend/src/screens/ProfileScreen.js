@@ -7,41 +7,47 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 
 const ProfileScreen = () => {
+    // États pour stocker les données du formulaire
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState(null);
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    // Récupération des données de l'utilisateur connecté depuis le state global
     const userDetails = useSelector((state) => state.userDetails);
     const { loading, error, user } = userDetails;
-
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
-
     const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
     const { success } = userUpdateProfile;
 
+    // Effet pour charger les détails de l'utilisateur et mettre à jour les états du formulaire
     useEffect(() => {
         if (!userInfo) {
+            // Redirection vers la page de connexion si l'utilisateur n'est pas connecté
             navigate('/login');
         } else {
+            // Récupération des détails de l'utilisateur
             if (!user.name) {
                 dispatch(getUserDetails('profile'));
             } else {
+                // Mise à jour des états du formulaire avec les données de l'utilisateur
                 setName(user.name);
                 setEmail(user.email);
             }
         }
     }, [dispatch, navigate, userInfo, user]);
-
+    
+    // Fonction de soumission du formulaire
     const submitHandler = (e) => {
         e.preventDefault();
+        // Vérification de la correspondance des mots de passe
         if (password !== confirmPassword) {
             setMessage('Les mots de passe ne correspondent pas.');
         } else {
+            // Envoi des données de mise à jour du profil à l'action updateUserProfile
             dispatch(updateUserProfile({ id: user._id, name, email, password: password === '' ? null : password }));
         }
     };
@@ -53,11 +59,14 @@ const ProfileScreen = () => {
                     <Card className="p-3">
                         <Card.Body>
                             <h2 className="text-center mb-4">Profil Utilisateur</h2>
+                            {/* Affichage des messages d'erreur, de succès et de chargement */}
                             {message && <Message variant='danger'>{message}</Message>}
                             {success && <Message variant='success'>Profil mis à jour avec succès</Message>}
                             {error && <Message variant='danger'>{error}</Message>}
                             {loading && <Loader />}
+                            {/* Formulaire de mise à jour du profil */}
                             <Form onSubmit={submitHandler}>
+                                {/* Champ de nom */}
                                 <Form.Group controlId='name' className="mb-3">
                                     <Form.Label>Nom</Form.Label>
                                     <Form.Control
@@ -68,6 +77,7 @@ const ProfileScreen = () => {
                                     />
                                 </Form.Group>
 
+                                {/* Champ d'email */}
                                 <Form.Group controlId='email' className="mb-3">
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control
@@ -77,7 +87,7 @@ const ProfileScreen = () => {
                                         onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </Form.Group>
-
+                                {/* Champ de nouveau mot de passe */}
                                 <Form.Group controlId='password' className="mb-3">
                                     <Form.Label>Nouveau mot de passe</Form.Label>
                                     <Form.Control
@@ -88,6 +98,7 @@ const ProfileScreen = () => {
                                     />
                                 </Form.Group>
 
+                                {/* Champ de confirmation du nouveau mot de passe */}
                                 <Form.Group controlId='confirmPassword' className="mb-3">
                                     <Form.Label>Confirmer le mot de passe</Form.Label>
                                     <Form.Control
@@ -97,6 +108,7 @@ const ProfileScreen = () => {
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                     />
                                 </Form.Group>
+                                {/* Bouton de soumission */}
                                 <Button type="submit" variant="primary" className="w-100">Mettre à jour</Button>
                             </Form>
                         </Card.Body>

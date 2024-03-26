@@ -1,4 +1,5 @@
 import {
+    // Importation des constantes d'action
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST,
     USER_DETAILS_SUCCESS,
@@ -24,6 +25,7 @@ import {
 } from '../constants/userConstants.js';
 
 
+// Reducer pour gérer la connexion de l'utilisateur
 export const userLoginReducer = (state = {}, action) => {
     switch (action.type) {
         case USER_LOGIN_REQUEST:
@@ -33,12 +35,13 @@ export const userLoginReducer = (state = {}, action) => {
         case USER_LOGIN_FAIL:
             return { loading: false, error: action.payload }
         case USER_LOGOUT:
-            return {}
+            return {} // Efface les informations de l'utilisateur lors de la déconnexion
         default:
             return state
     }
 }
 
+// Reducer pour gérer l'inscription de l'utilisateur
 export const userRegisterReducer = (state = {}, action) => {
     switch (action.type) {
         case USER_REGISTER_REQUEST:
@@ -52,6 +55,7 @@ export const userRegisterReducer = (state = {}, action) => {
     }
 }
 
+// Reducer pour gérer les détails de l'utilisateur
 export const userDetailsReducer = (state = { user: { favorites: [] } }, action) => {
     switch (action.type) {
         case USER_DETAILS_REQUEST:
@@ -60,57 +64,54 @@ export const userDetailsReducer = (state = { user: { favorites: [] } }, action) 
             return { loading: false, user: action.payload };
         case USER_DETAILS_FAIL:
             return { loading: false, error: action.payload };
+        // Reducers pour gérer l'ajout et la suppression des favoris de l'utilisateur
         case USER_ADD_FAVORITE_REQUEST:
             return { ...state, updatingFavorites: true };
-            case USER_ADD_FAVORITE_SUCCESS:
-                if (!action.payload) {
-                    console.error('Payload is undefined in USER_ADD_FAVORITE_SUCCESS');
-                    return state; // Retourne l'état actuel sans le modifier
+        case USER_ADD_FAVORITE_SUCCESS:
+            // Manipulation de l'état pour simuler l'ajout d'un favori
+            return {
+                ...state, 
+                updatingFavorites: false,
+                user: { 
+                    ...state.user,
+                    favorites: [...state.user.favorites, { _id: action.payload }]
                 }
-                return {
-                    ...state, 
-                    updatingFavorites: false,
-                    user: { 
-                        ...state.user,
-                        favorites: [...state.user.favorites, { _id: action.payload }] // Simule l'ajout
-                    }
-                };
+            };
         case USER_ADD_FAVORITE_FAIL:
             return { ...state, updatingFavorites: false, error: action.payload };
         case USER_REMOVE_FAVORITE_REQUEST:
             return { ...state, updatingFavorites: true };
-            case USER_REMOVE_FAVORITE_SUCCESS:
-                if (!action.payload) {
-                    console.error('Payload is undefined in USER_REMOVE_FAVORITE_SUCCESS');
-                    return state; // Retourne l'état actuel sans le modifier
+        case USER_REMOVE_FAVORITE_SUCCESS:
+            // Manipulation de l'état pour supprimer un favori
+            return {
+                ...state, 
+                updatingFavorites: false,
+                user: {
+                    ...state.user, 
+                    favorites: state.user.favorites.filter(id => id !== action.payload)
                 }
-                return {
-                    ...state, 
-                    updatingFavorites: false,
-                    user: {
-                        ...state.user, 
-                        favorites: state.user.favorites.filter(id => id !== action.payload)
-                    }
-                };
+            };
         case USER_REMOVE_FAVORITE_FAIL:
             return { ...state, updatingFavorites: false, error: action.payload };
+        // Reducers pour gérer la récupération de la liste des favoris de l'utilisateur
+        case USER_LIST_FAVORITES_REQUEST:
+            return { ...state, loadingFavorites: true };
+        case USER_LIST_FAVORITES_SUCCESS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    favorites: action.payload
+                }
+            };
+        case USER_LIST_FAVORITES_FAIL:
+            return { ...state, loadingFavorites: false, errorFavorites: action.payload };
         default:
             return state;
-            case USER_LIST_FAVORITES_REQUEST:
-  return { ...state, loadingFavorites: true };
-case USER_LIST_FAVORITES_SUCCESS:
-return {
-    ...state,
-    user: {
-        ...state.user,
-        favorites: action.payload
-    }
-};
-case USER_LIST_FAVORITES_FAIL:
-  return { ...state, loadingFavorites: false, errorFavorites: action.payload };
     }
 }
 
+// Reducer pour gérer la mise à jour du profil utilisateur
 export const userUpdateProfileReducer = (state = {}, action) => {
     switch (action.type) {
         case USER_UPDATE_PROFILE_REQUEST:

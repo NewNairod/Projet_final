@@ -24,7 +24,6 @@ const authUser = asyncHandler(async (req, res) => {
         throw new Error(`Invalid email or password`)
     }
 })
-
 // Récupère le profil de l'utilisateur connecté
 const getUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id) // Trouve l'utilisateur par son ID

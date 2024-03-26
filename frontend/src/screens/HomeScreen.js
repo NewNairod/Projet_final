@@ -8,50 +8,47 @@ import { listProducts } from '../actions/productActions';
 import { useLocation } from 'react-router-dom';
 import ProductForm from '../components/ProductForm.js';
 
-
 const HomeScreen = () => {
-    const [category, setCategory] = useState('');
-    const [type, setType] = useState('');
+    const [category, setCategory] = useState(''); // State pour la catégorie sélectionnée
+    const [type, setType] = useState(''); // State pour le type sélectionné
     const [showModal, setShowModal] = useState(false); // State pour contrôler l'ouverture et la fermeture du modal
-    const location = useLocation();
-    const keyword = new URLSearchParams(location.search).get('search');
-    const dispatch = useDispatch();
-
-    const userLogin = useSelector((state) => state.userLogin);
-    const { userInfo } = userLogin;
-
-    const productList = useSelector((state) => state.productList);
-    const { loading, error, products } = productList;
+    const location = useLocation(); // Hook pour obtenir l'objet location
+    const keyword = new URLSearchParams(location.search).get('search'); // Obtention du mot-clé de recherche de l'URL
+    const dispatch = useDispatch(); // Obtention de la fonction dispatch pour envoyer des actions Redux
+    const userLogin = useSelector((state) => state.userLogin); // Extraction des informations de connexion de l'utilisateur depuis le store Redux
+    const { userInfo } = userLogin; // Extraction des données d'utilisateur connecté
+    const productList = useSelector((state) => state.productList); // Extraction de la liste des produits depuis le store Redux
+    const { loading, error, products } = productList; // Extraction des états de chargement, d'erreur et des produits
 
     useEffect(() => {
         if (keyword) {
-            dispatch(listProducts(keyword));
+            dispatch(listProducts(keyword)); // Dispatch de l'action pour récupérer les produits avec le mot-clé de recherche
         } else {
-            dispatch(listProducts());
+            dispatch(listProducts()); // Dispatch de l'action pour récupérer tous les produits
         }
-    }, [dispatch, keyword]);
+    }, [dispatch, keyword]); // Déclenchement de l'effet lorsqu'il y a des changements dans ces dépendances
 
-    const filteredProducts = useMemo(() => {
+    const filteredProducts = useMemo(() => { // Utilisation de useMemo pour éviter le recalcul de filteredProducts à chaque rendu
         let result = products;
         if (Array.isArray(result)) {
             if (category) {
-                result = result.filter((product) => product.category === category);
+                result = result.filter((product) => product.category === category); // Filtrage des produits par catégorie
             }
             if (type) {
-                result = result.filter((product) => product.type === type);
+                result = result.filter((product) => product.type === type); // Filtrage des produits par type
             }
         }
         return result;
-    }, [products, category, type]);
-    
+    }, [products, category, type]); // Déclenchement du recalcul si products, category ou type changent
 
-    const handleOpenModal = () => {
+    const handleOpenModal = () => { // Fonction pour ouvrir le modal
         setShowModal(true);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseModal = () => { // Fonction pour fermer le modal
         setShowModal(false);
     };
+
     return (
         <Row>
             <Col md={3} className="filter-sidebar">
@@ -96,9 +93,7 @@ const HomeScreen = () => {
                         ))}
                     </Row>
                 )}
-                
             </Col>
-
             {/* Modal pour ajouter un produit */}
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
@@ -110,7 +105,6 @@ const HomeScreen = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className='redButton' variant="secondary" onClick={handleCloseModal}>Fermer</Button>
-                    {/* Vous pouvez ajouter un bouton Enregistrer ici s'il est nécessaire */}
                 </Modal.Footer>
             </Modal>
         </Row>

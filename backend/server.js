@@ -4,7 +4,6 @@ import dotenv from 'dotenv'
 import colors from 'colors'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js' // Importation de middleware personnalisé pour la gestion des erreurs
 import connectDb from './config/db.js' // Importation du module pour la connexion à la base de données
-
 // Importation des routes définies dans des fichiers séparés
 import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'

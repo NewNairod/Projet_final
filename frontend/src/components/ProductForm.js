@@ -4,6 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 import { createProduct } from '../actions/productActions';
 
 const FormProduct = () => {
+    // États locaux pour stocker les données du formulaire
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
@@ -11,9 +12,8 @@ const FormProduct = () => {
     const [category, setCategory] = useState('');
     const [type, setType] = useState('');
     const [countInStock, setCountInStock] = useState(0);
-
     const dispatch = useDispatch();
-
+    // Fonction de soumission du formulaire
     const submitHandler = (e) => {
         e.preventDefault();
         // Création de l'objet productData à partir des états locaux
@@ -39,6 +39,7 @@ const FormProduct = () => {
         setType('');
         setCountInStock(0);
     };
+    
     return (
         <Form onSubmit={submitHandler}>
             <Form.Group controlId='name'>
@@ -111,11 +112,11 @@ const FormProduct = () => {
                 ></Form.Control>
             </Form.Group>
 
+            {/* Bouton pour soumettre le formulaire */}
             <Button className='redButton' type='submit' variant='primary'>
                 Ajouter
             </Button>
         </Form>
-        
     );
 };
 

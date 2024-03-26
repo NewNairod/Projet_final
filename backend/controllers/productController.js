@@ -12,7 +12,6 @@ const getProducts = asyncHandler(async (req, res) => {
             },
         }
         : {};
-
     // Utilise le mot-clé pour filtrer les produits, ou récupère tous les produits si aucun mot-clé n'est fourni
     const products = await Product.find({ ...keyword });
     // Envoie la liste des produits au format JSON
@@ -33,12 +32,9 @@ const getProductById = asyncHandler(async (req, res) => {
 // createProduct : Crée un nouveau produit
 const createProduct = asyncHandler(async (req, res) => {
     const { name, description, price, image, category, type, countInStock } = req.body;
-    console.log('Création du produit avec les données:', req.body);
-
     if (!req.user) {
         return res.status(401).json({ message: "Utilisateur non authentifié." });
     }
-
     const product = new Product({
         name,
         description,
@@ -59,7 +55,5 @@ const createProduct = asyncHandler(async (req, res) => {
         res.status(500).json({ message: 'Échec de la création du produit: ' + error.message });
     }
 });
-
-
 export { getProducts, getProductById, createProduct };
 
