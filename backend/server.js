@@ -1,52 +1,8 @@
-// Importation des modules nécessaires
-import express from 'express'
-import dotenv from 'dotenv'
-import colors from 'colors'
-import { notFound, errorHandler } from './middleware/errorMiddleware.js' // Importation de middleware personnalisé pour la gestion des erreurs
-import connectDb from './config/db.js' // Importation du module pour la connexion à la base de données
-// Importation des routes définies dans des fichiers séparés
-import productRoutes from './routes/productRoutes.js'
-import userRoutes from './routes/userRoutes.js'
-import orderRoutes from './routes/orderRoutes.js'
+import app from './App.js'; // Ajustez le chemin selon l'organisation de vos fichiers
+import colors from 'colors';
 
-// Configuration des variables d'environnement à partir du fichier .env
-dotenv.config()
+const PORT = process.env.PORT || 5000;
 
-// Connexion à la base de données MongoDB
-connectDb();
+const server = app.listen(PORT, console.log(`server run on http://localhost:${PORT}`.yellow.bold));
 
-// Création d'une instance de l'application Express
-const app = express()
-
-// Utilisation de JSON comme format de données pour les requêtes HTTP
-app.use(express.json())
-
-// Route de base pour vérifier le bon fonctionnement de l'API
-app.get('/', (req, res) => {
-    res.send('API is runningxvnb');
-})
-
-app.get('/api', (req, res) => {
-  res.send('API is running v2');
-})
-
-app.use((req, res, next) => {
-    next();
-  });
-
-// Utilisation des routes définies pour les produits, les utilisateurs et les commandes
-app.use('/api/products', productRoutes)
-app.use('/api/users', userRoutes)
-app.use('/api/orders', orderRoutes)
-
-// Middleware pour gérer les erreurs 404 (Not Found)
-app.use(notFound)
-
-// Middleware pour gérer les erreurs
-app.use(errorHandler)
-
-// Définition du port sur lequel le serveur écoute les requêtes, en utilisant une valeur par défaut de 5000
-const PORT = process.env.PORT || 5000
-
-// Démarrage du serveur Express et écoute des requêtes sur le port spécifié
-app.listen(PORT, console.log(`server run on http://localhost:${PORT}`.yellow.bold))
+export default server;
