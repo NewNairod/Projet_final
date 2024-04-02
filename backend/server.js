@@ -1,4 +1,4 @@
-import app from './App.js'; // Ajustez le chemin selon l'organisation de vos fichiers
+import app from './App.js';
 import colors from 'colors';
 
 const PORT = process.env.PORT || 5000;

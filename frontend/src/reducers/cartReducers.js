@@ -1,4 +1,4 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS } from '../constants/cartConstants.js'
+import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_PAYMENT_METHOD, CART_SAVE_SHIPPING_ADDRESS, CART_RESET } from '../constants/cartConstants.js'
 // Définition du reducer cartReducer
 export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, action) => {
     switch (action.type) {
@@ -38,6 +38,18 @@ export const cartReducer = (state = { cartItems: [], shippingAddress: {} }, acti
                 ...state,
                 paymentMethod: action.payload
             }
+
+        case CART_RESET:
+            return {
+                ...state,
+                cartItems: [],
+                shippingAddress: {},
+                paymentMethod: null,
+                itemsPrice: 0,
+                shippingPrice: 0,
+                taxPrice: 0,
+                totalPrice: 0
+            };
         default: // Retour par défaut : retourner l'état actuel si aucune action correspondante n'est trouvée
             return state;
     }

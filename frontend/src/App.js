@@ -13,6 +13,7 @@ import ShippingScreen from './screens/ShippingScreen'; // Import du composant Sh
 import PaymentScreen from './screens/PaymentScreen'; // Import du composant PaymentScreen
 import PlaceOrderScreen from './screens/PlaceOrderScreen'; // Import du composant PlaceOrderScreen
 import FavoritesScreen from './screens/FavoritesScreen'; // Import du composant FavoritesScreen
+import PaymentSuccessScreen from './screens/PaymentSuccessScreen.js'; // Import du composant PaymentSuccessScreen
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
             <Route path='/cart/:id?' element={<CartScreen />} />
             <Route path='/' element={<HomeScreen />} exact /> {/* Route par défaut pour la page d'accueil */}
             <Route path='/favorites' element={<FavoritesScreen />} />
+            <Route path="/payment-success" element={<PaymentSuccessScreen />} />
           </Routes>
         </Container>
       </main>

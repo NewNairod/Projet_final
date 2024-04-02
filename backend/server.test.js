@@ -48,7 +48,7 @@ describe('API server', () => {
           name: 'Test Product',
           price: 19.99,
           description: 'un produit test',
-          image: '../frontend/public/images/onepiecetome1.jpg',
+          image: '/images/onepiecetome1.jpg',
           category: 'mangas',
           type: 'shonen',
           countInStock: '32'

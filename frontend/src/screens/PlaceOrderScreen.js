@@ -1,47 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Message from '../components/Message.js';
 import CheckoutSteps from '../components/CheckoutSteps.js';
-import { Button, Row, Col, ListGroup, Image, Card, ListGroupItem } from 'react-bootstrap';
+import { Row, Col, ListGroup, Image, Card, ListGroupItem, Button } from 'react-bootstrap';
 import { createOrder } from '../actions/orderActions.js';
+import { CART_RESET } from '../constants/cartConstants';
+import { ORDER_RESET } from '../constants/orderConstants';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import PaymentForm from '../components/PaymentForm.js';
+
+// Assurez-vous d'avoir votre clé publique Stripe correcte ici
+const stripePromise = loadStripe("pk_test_51P0Biz09lkoxsuabcxDZ9P1TB6EchTrt98PVQiarCAKYNS5TND05ttt3zvFmyI0NYsjbQBGZKPuRt3JAFXHB4bKG00lrOwWyxk");
 
 const PlaceOrderScreen = () => {
-    // Récupération des informations sur le panier depuis Redux
-    const cart = useSelector(state => state.cart);
-    // Calcul des totaux
-    cart.itemsPrice = Number(cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)).toFixed(2);
-    cart.shippingPrice = Number(cart.itemsPrice > 100 ? 0 : 15).toFixed(2);
-    cart.taxPrice = Number((0.15 * cart.itemsPrice).toFixed(2)).toFixed(2);
-    cart.totalPrice = Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice);
-    // Dispatch pour l'action de création de commande
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    // Récupération du résultat de la création de commande depuis Redux
+    // Sélectionnez les données nécessaires à partir de l'état Redux
+    const cart = useSelector(state => state.cart);
+    const { cartItems, shippingAddress, paymentMethod } = cart;
+
     const orderCreate = useSelector(state => state.orderCreate);
     const { order, success, error } = orderCreate;
 
-    // Redirection vers l'écran de détail de commande une fois la commande créée avec succès
+// Calculer les totaux localement sans modifier l'état global de Redux
+const itemsPrice = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+const shippingPrice = itemsPrice > 100 ? 0 : 10; // frais d'expédition fictifs
+const taxPrice = 0.15 * itemsPrice; // taxe fictive
+const totalPrice = itemsPrice + shippingPrice + taxPrice;
+
+
+    // Réinitialiser l'état local et Redux lorsqu'on quitte la page
     useEffect(() => {
         if (success) {
             navigate(`/order/${order._id}`);
         }
-    }, [navigate, success]);
+        return () => {
+            dispatch({ type: ORDER_RESET });
+            dispatch({ type: CART_RESET });
+        };
+    }, [dispatch, navigate, order, success]);
 
-    // Gestionnaire pour passer la commande
-    const placeOrderHandler = (e) => {
-        e.preventDefault();
+    const placeOrderHandler = () => {
         dispatch(createOrder({
-            orderItems: cart.cartItems,
-            shippingAddress: cart.shippingAddress,
-            paymentMethod: cart.paymentMethod,
-            itemsPrice: cart.itemsPrice,
-            shippingPrice: cart.shippingPrice,
-            taxPrice: cart.taxPrice,
-            totalPrice: cart.totalPrice
+          orderItems: cart.cartItems,
+          shippingAddress: cart.shippingAddress,
+          paymentMethod: cart.paymentMethod,
+          itemsPrice: itemsPrice.toFixed(2),
+          shippingPrice: shippingPrice.toFixed(2),
+          taxPrice: taxPrice.toFixed(2),
+          totalPrice: totalPrice.toFixed(2),
         }));
-    }
+      };
 
     return (
         <>
@@ -104,49 +116,57 @@ const PlaceOrderScreen = () => {
                         </ListGroupItem>
                     </ListGroup>
                 </Col>
-                {/* Colonne pour afficher la synthèse de la commande */}
-                <Col md={4}>
-                    <Card>
-                        <ListGroup variant="flush">
-                            <ListGroupItem>
-                                <h2>Synthèse de la commande</h2>
-                            </ListGroupItem>
-                            {/* Section du total des articles */}
-                            <ListGroupItem>
-                                <Row>
-                                    <Col>Références : </Col>
-                                    <Col>{cart.itemsPrice}€</Col>
-                                </Row>
-                            </ListGroupItem>
-                            {/* Section des frais d'expédition */}
-                            <ListGroupItem>
-                                <Row>
-                                    <Col>Expédition : </Col>
-                                    <Col>{cart.shippingPrice}€</Col>
-                                </Row>
-                            </ListGroupItem>
-                            {/* Section des taxes */}
-                            <ListGroupItem>
-                                <Row>
-                                    <Col>Taxes : </Col>
-                                    <Col>{cart.taxPrice}€</Col>
-                                </Row>
-                            </ListGroupItem>    
-                            {/* Section du total TTC */}
-                            <ListGroupItem>
-                                <Row>
-                                    <Col>Total TTC : </Col>
-                                    <Col>{cart.totalPrice}€</Col>
-                                </Row>
-                            </ListGroupItem>    
-                            {/* Affichage d'un message d'erreur s'il y en a */}
-                            <ListGroupItem>
-                                {error && <Message variant='danger'>{error}</Message>}
-                            </ListGroupItem>                           
-                            {/* Bouton pour procéder au paiement */}
-                            <ListGroupItem>
-                                <Button style={{ backgroundColor: 'red', borderColor: 'red' }} type="button" className='btn-block' disabled={cart.cartItems.length === 0} onClick={placeOrderHandler}>Proceder au paiement</Button>
-                            </ListGroupItem>
+               {/* Colonne pour afficher la synthèse de la commande */}
+            <Col md={4}>
+                <Card>
+                    <ListGroup variant="flush">
+                        <ListGroupItem>
+                            <h2>Synthèse de la commande</h2>
+                        </ListGroupItem>
+                        <ListGroupItem>
+                            <Row>
+                                <Col>Références :</Col>
+                                <Col>{itemsPrice.toFixed(2)}€</Col>
+                            </Row>
+                        </ListGroupItem>
+                        <ListGroupItem>
+                            <Row>
+                                <Col>Expédition :</Col>
+                                <Col>{shippingPrice.toFixed(2)}€</Col>
+                            </Row>
+                        </ListGroupItem>
+                        <ListGroupItem>
+                            <Row>
+                                <Col>Taxes :</Col>
+                                <Col>{taxPrice.toFixed(2)}€</Col>
+                            </Row>
+                        </ListGroupItem>
+                        <ListGroupItem>
+                            <Row>
+                                <Col>Total TTC :</Col>
+                                <Col>{totalPrice.toFixed(2)}€</Col>
+                            </Row>
+                        </ListGroupItem>
+                        {/* Affichage d'un message d'erreur s'il y en a */}
+                        <ListGroupItem>
+                            {error && <Message variant='danger'>{error}</Message>}
+                        </ListGroupItem>
+                        {/* Bouton pour déclencher le paiement */}
+                        <ListGroupItem>
+                            <Button
+                                type="button"
+                                className="btn-block"
+                                disabled={cartItems.length === 0}
+                                onClick={placeOrderHandler}
+                            >
+                                Passer la commande
+                            </Button>
+                        </ListGroupItem>
+                        <ListGroupItem>
+                            <Elements stripe={stripePromise}>
+                                <PaymentForm totalPrice={totalPrice} navigate={navigate}/>
+                            </Elements>
+                        </ListGroupItem>
                         </ListGroup>
                     </Card>
                 </Col>
