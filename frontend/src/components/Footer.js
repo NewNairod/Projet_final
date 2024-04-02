@@ -25,7 +25,7 @@ const Footer = () => { // Définit un composant fonctionnel Footer
             <Container> {/*Conteneur pour regrouper les éléments du pied de page*/}
                 <Row> {/* Ligne Bootstrap pour organiser les colonnes du pied de page */}
                     <Col className='text-center py-3'>Copyright &copy; Goodies for mangas</Col> 
-                     <Col className='text-center py-3'> {/* Colonne Bootstrap pour les informations de contact */}
+                     <Col className='text-center '> {/* Colonne Bootstrap pour les informations de contact */}
                         <div className="text-right"> {/*Div pour aligner le texte à droite */}
                             <p>Nous contacter :</p> {/* Paragraphe pour les informations de contact*/}
                             <p>Mail : exemple@gmail.com</p> {/* Paragraphe pour l'adresse e-mail*/}

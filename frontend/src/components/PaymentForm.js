@@ -1,15 +1,18 @@
-import React from 'react';
-import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+import React, { useState } from 'react';
+import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
 
 const PaymentForm = ({ totalPrice, navigate }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const [isPaymentProcessing, setPaymentProcessing] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setPaymentProcessing(true); // Début du traitement
 
     if (!stripe || !elements) {
       console.log("Stripe n'est pas chargé");
+      setPaymentProcessing(false); // Arrêt du traitement
       return;
     }
 
@@ -24,15 +27,21 @@ const PaymentForm = ({ totalPrice, navigate }) => {
 
       if (data.error || !data.clientSecret) {
         console.error("Erreur lors de la récupération du clientSecret", data.error);
+        setPaymentProcessing(false); // Arrêt du traitement
         return;
       }
       
       const result = await stripe.confirmCardPayment(data.clientSecret, {
-        payment_method: { card: elements.getElement(CardElement) },
+        payment_method: { 
+          card: elements.getElement(CardNumberElement),
+          billing_details: {
+          },
+        },
       });
 
       if (result.error) {
         console.error(result.error.message);
+        setPaymentProcessing(false); // Arrêt du traitement
       } else {
         if (result.paymentIntent.status === 'succeeded') {
           navigate('/payment-success');
@@ -40,14 +49,26 @@ const PaymentForm = ({ totalPrice, navigate }) => {
       }
     } catch (error) {
       console.error("Erreur lors de la soumission", error);
+      setPaymentProcessing(false); // Arrêt du traitement
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <CardElement />
-      <button type="submit" disabled={!stripe}>
-        Payer {totalPrice.toFixed(2)}€
+      <div>
+        <label htmlFor="cardNumber" style={{ fontWeight: 'bold' }} >Numéro de carte</label>
+        <CardNumberElement id="cardNumber" />
+      </div>
+      <div>
+        <label htmlFor="cardExpiry" style={{ fontWeight: 'bold' }} >Date d'expiration</label>
+        <CardExpiryElement id="cardExpiry" />
+      </div>
+      <div>
+        <label htmlFor="cardCvc" style={{ fontWeight: 'bold' }} >CVC</label>
+        <CardCvcElement id="cardCvc" />
+      </div>
+      <button type="submit" disabled={!stripe || isPaymentProcessing}>
+        {isPaymentProcessing ? 'Traitement...' : `Payer ${totalPrice.toFixed(2)}€`}
       </button>
     </form>
   );

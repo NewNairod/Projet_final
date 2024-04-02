@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Message from '../components/Message.js';
@@ -11,19 +11,19 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import PaymentForm from '../components/PaymentForm.js';
 
-// Assurez-vous d'avoir votre clé publique Stripe correcte ici
+// clé publique Stripe
 const stripePromise = loadStripe("pk_test_51P0Biz09lkoxsuabcxDZ9P1TB6EchTrt98PVQiarCAKYNS5TND05ttt3zvFmyI0NYsjbQBGZKPuRt3JAFXHB4bKG00lrOwWyxk");
 
 const PlaceOrderScreen = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const [showPaymentForm, setShowPaymentForm] = useState(false); // nouvel état pour afficher le formulaire
     // Sélectionnez les données nécessaires à partir de l'état Redux
     const cart = useSelector(state => state.cart);
-    const { cartItems, shippingAddress, paymentMethod } = cart;
+    const { cartItems} = cart;
 
     const orderCreate = useSelector(state => state.orderCreate);
-    const { order, success, error } = orderCreate;
+    const { order, success } = orderCreate;
 
 // Calculer les totaux localement sans modifier l'état global de Redux
 const itemsPrice = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
@@ -43,7 +43,7 @@ const totalPrice = itemsPrice + shippingPrice + taxPrice;
         };
     }, [dispatch, navigate, order, success]);
 
-    const placeOrderHandler = () => {
+    const placeOrderHandlerAndShowForm = () => {
         dispatch(createOrder({
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,
@@ -52,8 +52,9 @@ const totalPrice = itemsPrice + shippingPrice + taxPrice;
           shippingPrice: shippingPrice.toFixed(2),
           taxPrice: taxPrice.toFixed(2),
           totalPrice: totalPrice.toFixed(2),
-        }));
-      };
+        }))
+      setShowPaymentForm(true); // Afficher le formulaire de paiement
+    };
 
     return (
         <>
@@ -147,25 +148,25 @@ const totalPrice = itemsPrice + shippingPrice + taxPrice;
                                 <Col>{totalPrice.toFixed(2)}€</Col>
                             </Row>
                         </ListGroupItem>
-                        {/* Affichage d'un message d'erreur s'il y en a */}
-                        <ListGroupItem>
-                            {error && <Message variant='danger'>{error}</Message>}
-                        </ListGroupItem>
                         {/* Bouton pour déclencher le paiement */}
                         <ListGroupItem>
+                        {!showPaymentForm && (
                             <Button
                                 type="button"
-                                className="btn-block"
+                                className="redButton"
                                 disabled={cartItems.length === 0}
-                                onClick={placeOrderHandler}
+                                onClick={placeOrderHandlerAndShowForm}
                             >
                                 Passer la commande
                             </Button>
+                        )}
                         </ListGroupItem>
                         <ListGroupItem>
+                        {showPaymentForm && (
                             <Elements stripe={stripePromise}>
                                 <PaymentForm totalPrice={totalPrice} navigate={navigate}/>
                             </Elements>
+                        )}
                         </ListGroupItem>
                         </ListGroup>
                     </Card>

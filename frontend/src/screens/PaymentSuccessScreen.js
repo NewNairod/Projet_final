@@ -25,7 +25,7 @@ const PaymentSuccessScreen = () => {
             <h2>Paiement réussi</h2>
             <p>Merci pour votre paiement !</p>
             {/* Bouton pour retourner à la page d'accueil ou à la boutique */}
-            <Button variant="primary" onClick={continueShoppingHandler}>
+            <Button variant="primary" className='redButton' onClick={continueShoppingHandler}>
               Continuer vos achats
             </Button>
           </Col>
