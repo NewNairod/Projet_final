@@ -15,10 +15,11 @@ const app = express();
 app.use(express.json());
 
 // Configurez CORS avec des options, remplacez '*' par votre domaine front-end en production
-app.use(cors({
-    origin: 'https://projet-final-frontend.vercel.app/',
-    credentials: true, // Permet les cookies/certifications cross-origin
-  }));
+// app.use(cors({
+//     origin: 'https://projet-final-frontend.vercel.app/',
+//     // Permet les cookies/certifications cross-origin
+//     credentials: true, 
+//   }));
 
 app.get('/', (req, res) => {
     res.send('API is running');
