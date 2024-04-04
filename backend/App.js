@@ -16,7 +16,7 @@ app.use(express.json());
 
 // Configurez CORS avec des options, remplacez '*' par votre domaine front-end en production
 app.use(cors({
-    origin: 'https://projet-final-frontend.vercel.app/', // Pour des raisons de sécurité, remplacez '*' par l'URL de votre front-end
+    origin: 'https://projet-final-frontend.vercel.app/',
     credentials: true, // Permet les cookies/certifications cross-origin
   }));
 
