@@ -3,6 +3,6 @@ import colors from 'colors';
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, console.log(`server run on http://localhost:${PORT}`.yellow.bold));
+const server = app.listen(PORT, console.log(`server run on ${PORT}`.yellow.bold));
 
 export default server;
