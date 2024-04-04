@@ -11,8 +11,5 @@
         "src": "/(.*)",
         "dest": "/App.js"
     }
-  ],
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "https://projet-final-seven.vercel.app/api/:path*" }
   ]
 }
