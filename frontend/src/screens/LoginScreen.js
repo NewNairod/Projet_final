@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Message from '../components/Message.js';
 import FormContainer from '../components/FormContainer.js';
-import { Row, Col, Form, Button, FormLabel, FormControl, Card} from 'react-bootstrap';
+import { Row, Col, Form, Button, Card} from 'react-bootstrap';
 import { login } from '../actions/userActions.js';
 import Loader from '../components/Loader.js';
 
@@ -31,7 +31,7 @@ const LoginScreen = () => {
         } else {
             navigate(`/login`);
         }
-    }, [userInfo, navigate]);
+    }, [userInfo, navigate, redirect]);
 
     // Fonction pour soumettre le formulaire de connexion
     const submitHandler = (e) => {

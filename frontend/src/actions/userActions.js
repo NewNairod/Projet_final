@@ -186,6 +186,7 @@ export const addFavorite = (productId) => async (dispatch, getState) => {
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
         // Envoie une requête HTTP PUT pour ajouter le produit aux favoris avec l'identifiant du produit
+        // eslint-disable-next-line
         const response = await axios.put(`/api/users/favorites/add`, { productId }, config);
 
         // Si la requête réussit, dispatche l'action USER_ADD_FAVORITE_SUCCESS avec l'identifiant du produit ajouté
