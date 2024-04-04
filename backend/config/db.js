@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 const connectDb = async () => {
     try {
         // Tente de se connecter à la base de données MongoDB en utilisant l'URI fourni dans les variables d'environnement
-        const conn = await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+        const conn = await mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
         // Si la connexion réussit, affiche le nom de l'hôte de la base de données dans la console.
         console.log(`MongoDB Connected : ${conn.connection.host}`.cyan.underline)
     } catch (error) {
