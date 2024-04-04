@@ -4,7 +4,7 @@ import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_
 // Action pour ajouter un article au panier
 export const addToCart = (id, qty) => async (dispatch, getState) => {
     // Effectuer une requête GET pour obtenir les détails du produit
-    const { data } = await axios.get(`projet-final-backend.vercel.app/api/products/${id}`)
+    const { data } = await axios.get(`/api/products/${id}`)
     // Dispatch de l'action CART_ADD_ITEM avec les détails du produit et la quantité
     dispatch({
         type: CART_ADD_ITEM,

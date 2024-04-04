@@ -37,7 +37,7 @@ export const login = (email, password) => async (dispatch) => {
         };
 
         // Requête POST à l'API pour la connexion avec les informations d'identification
-        const { data } = await axios.post(`projet-final-backend.vercel.app/api/users/login`, { email, password }, config);
+        const { data } = await axios.post(`/api/users/login`, { email, password }, config);
 
         // Dispatch de l'action de succès de connexion avec les données utilisateur
         dispatch({
@@ -78,7 +78,7 @@ export const register = (name, email, password) => async (dispatch) => {
         };
 
         // Requête POST à l'API pour l'inscription avec les informations de l'utilisateur
-        const { data } = await axios.post(`projet-final-backend.vercel.app/api/users`, { name, email, password }, config);
+        const { data } = await axios.post(`/api/users`, { name, email, password }, config);
 
         // Dispatch de l'action de succès d'inscription avec les données utilisateur
         dispatch({
@@ -119,7 +119,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
         };
 
         // Requête GET à l'API pour récupérer les détails de l'utilisateur avec son ID
-        const { data } = await axios.get(`projet-final-backend.vercel.app/api/users/${id}`, config);
+        const { data } = await axios.get(`/api/users/${id}`, config);
 
         // Dispatch de l'action de succès avec les détails de l'utilisateur
         dispatch({
@@ -158,7 +158,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
         };
 
         // Envoie une requête HTTP PUT pour mettre à jour le profil de l'utilisateur avec les nouvelles informations
-        const { data } = await axios.put(`projet-final-backend.vercel.app/api/users/profile`, user, config);
+        const { data } = await axios.put(`/api/users/profile`, user, config);
 
         // Si la requête réussit, dispatche l'action USER_UPDATE_PROFILE_SUCCESS avec les données utilisateur mises à jour
         dispatch({
@@ -187,7 +187,7 @@ export const addFavorite = (productId) => async (dispatch, getState) => {
 
         // Envoie une requête HTTP PUT pour ajouter le produit aux favoris avec l'identifiant du produit
         // eslint-disable-next-line
-        const response = await axios.put(`projet-final-backend.vercel.app/api/users/favorites/add`, { productId }, config);
+        const response = await axios.put(`/api/users/favorites/add`, { productId }, config);
 
         // Si la requête réussit, dispatche l'action USER_ADD_FAVORITE_SUCCESS avec l'identifiant du produit ajouté
         dispatch({ type: USER_ADD_FAVORITE_SUCCESS, payload: productId });
@@ -214,7 +214,7 @@ export const removeFavorite = (productId) => async (dispatch, getState) => {
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
         // Envoie une requête HTTP PUT pour supprimer le produit des favoris avec l'identifiant du produit
-        await axios.put(`projet-final-backend.vercel.app/api/users/favorites/remove`, { productId }, config);
+        await axios.put(`/api/users/favorites/remove`, { productId }, config);
 
         // Si la requête réussit, dispatche l'action USER_REMOVE_FAVORITE_SUCCESS avec l'identifiant du produit supprimé
         dispatch({ type: USER_REMOVE_FAVORITE_SUCCESS, payload: productId });
@@ -241,7 +241,7 @@ export const listFavorites = () => async (dispatch, getState) => {
         const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
         // Envoie une requête HTTP GET pour récupérer la liste des favoris de l'utilisateur
-        const { data } = await axios.get('projet-final-backend.vercel.app/api/users/favorites', config);
+        const { data } = await axios.get('/api/users/favorites', config);
 
         // Si la requête réussit, dispatche l'action USER_LIST_FAVORITES_SUCCESS avec les données des favoris
         dispatch({
