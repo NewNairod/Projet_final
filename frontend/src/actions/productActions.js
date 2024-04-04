@@ -18,7 +18,7 @@ export const listProducts = (keyword = '') => async (dispatch) => {
         dispatch({ type: PRODUCT_LIST_REQUEST });
 
         // Envoi de la requête GET pour récupérer la liste des produits avec un éventuel mot-clé de recherche
-        const { data } = await axios.get(`/api/products?name=${keyword}`);
+        const { data } = await axios.get(`projet-final-backend.vercel.app/api/products?name=${keyword}`);
 
         // Dispatch de l'action de succès avec les données des produits comme payload
         dispatch({
@@ -41,7 +41,7 @@ export const listProductDetails = (id) => async (dispatch) => {
         dispatch({ type: PRODUCT_DETAILS_REQUEST });
 
         // Envoi de la requête GET pour récupérer les détails du produit avec l'identifiant spécifié
-        const { data } = await axios.get(`/api/products/${id}`);
+        const { data } = await axios.get(`projet-final-backend.vercel.app/api/products/${id}`);
 
         // Dispatch de l'action de succès avec les données du produit comme payload
         dispatch({
@@ -75,7 +75,7 @@ export const createProduct = (productData) => async (dispatch, getState) => {
         };
 
         // Envoi de la requête POST pour créer un nouveau produit avec les données du produit et la configuration
-        const { data } = await axios.post(`/api/products`, productData, config);
+        const { data } = await axios.post(`projet-final-backend.vercel.app/api/products`, productData, config);
 
         // Dispatch de l'action de succès avec les données du nouveau produit comme payload
         dispatch({
