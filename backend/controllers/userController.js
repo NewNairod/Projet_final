@@ -21,7 +21,7 @@ const authUser = asyncHandler(async (req, res) => {
     } else {
         // Si échec d'authentification, renvoie une erreur 401
         res.status(401)
-        throw new Error(`Invalid email or password`)
+        throw new Error(`Mauvais email ou mot de passe`)
     }
 })
 // Récupère le profil de l'utilisateur connecté
@@ -39,7 +39,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
     } else {
         // Si l'utilisateur n'est pas trouvé, renvoie une erreur 404
         res.status(404)
-        throw new Error(`User not found`)
+        throw new Error(`Utilisateur non trouvé`)
     }
 })
 
@@ -52,7 +52,7 @@ const registerUser = asyncHandler(async (req, res) => {
     if (userExists) {
         // Si l'utilisateur existe déjà, renvoie une erreur 400
         res.status(400)
-        throw new Error('User already exists')
+        throw new Error('Utilisateur déjà existant')
     } else {
         // Si l'utilisateur n'existe pas, crée un nouvel utilisateur
         const user = await User.create({
@@ -71,7 +71,7 @@ const registerUser = asyncHandler(async (req, res) => {
         } else {
             // Si échec de la création, renvoie une erreur 400
             res.status(400)
-            throw new Error(`Invalid user data`)
+            throw new Error(`Données utilisateur inexistante`)
         }
     }
 })
@@ -102,7 +102,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     } else {
         // Si l'utilisateur n'est pas trouvé, renvoie une erreur 404
         res.status(404)
-        throw new Error(`User not found`)
+        throw new Error(`Utilisateur non trouvé`)
     }
 })
 

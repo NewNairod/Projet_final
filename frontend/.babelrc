@@ -1,11 +1,10 @@
 {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ],
-    "plugins": [
-      "@babel/plugin-transform-runtime",
-      "@babel/plugin-proposal-class-properties"
-    ]
-  }
-  
+  "presets": [
+    "@babel/preset-env", // Transforme le code JavaScript moderne en une version compatible avec les environnements actuels des navigateurs
+    "@babel/preset-react" // Transforme le code JSX utilisé dans React en code JavaScript valide
+  ],
+  "plugins": [
+    "@babel/plugin-transform-runtime", // Externalise les fonctions d'assistance utilisées par Babel pour réduire la duplication du code
+    "@babel/plugin-proposal-class-properties" // Traite les propriétés de classe dans les composants React comme des propriétés normales
+  ]
+}

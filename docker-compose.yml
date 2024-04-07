@@ -1,26 +1,28 @@
-version: '3'
-services:
-  backend:
-    build: .
-    env_file:
+version: '3'  # Version de la syntaxe utilisée dans ce fichier Docker Compose.
+
+services:  # Définition des services Docker pour l'application.
+
+  backend:  # Configuration du service pour le backend de l'application.
+    build: .  # Spécifie le chemin vers le Dockerfile pour construire l'image du backend à partir du répertoire actuel.
+    env_file:  # Spécifie le fichier .env à utiliser pour charger les variables d'environnement.
       - ./.env
-    ports:
+    ports:  # Mapping du port du conteneur avec le port de l'hôte.
       - "5000:5000"
-    volumes:
-      - ./backend:/usr/src/app
-      - /usr/src/app/node_modules
-    networks:
+    volumes:  # Configuration des volumes pour le backend.
+      - ./backend:/usr/src/app  # Montage du répertoire local du backend dans le conteneur Docker.
+      - /usr/src/app/node_modules  # Exclusion du répertoire node_modules du montage.
+    networks:  # Spécification du réseau utilisé par le service backend.
       - goodies-network
 
-  frontend:
-    build: ./frontend
-    ports:
+  frontend:  # Configuration du service pour le frontend de l'application.
+    build: ./frontend  # Spécifie le chemin vers le répertoire contenant le code source du frontend pour construire l'image du frontend.
+    ports:  # Mapping du port du conteneur avec le port de l'hôte.
       - "3000:80"
-    depends_on:
+    depends_on:  # Indique que ce service dépend du démarrage du service backend avant de démarrer.
       - backend
-    networks:
+    networks:  # Spécification du réseau utilisé par le service frontend.
       - goodies-network
 
-networks:
-  goodies-network:
+networks:  # Définition du réseau Docker utilisé par les services.
+  goodies-network:  # Configuration du réseau Docker avec le pilote bridge.
     driver: bridge
