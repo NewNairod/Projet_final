@@ -17,7 +17,7 @@ app.use(express.json()); // Utilise le middleware express.json pour parser les c
 
 // Configuration de CORS avec des options
 app.use(cors({
-    origin: 'https://projet-final-frontend.vercel.app/', // Définit l'origine autorisée pour les requêtes cross-origin
+    origin: 'https://goodies-for-mangas.vercel.app', // Définit l'origine autorisée pour les requêtes cross-origin
     credentials: true, // Permet les cookies/certifications cross-origin
 }));
 
