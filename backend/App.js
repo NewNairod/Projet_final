@@ -25,6 +25,22 @@ app.use(cors({
 app.get('/', (req, res) => {
     res.send('API is running'); // Répond avec un message indiquant que l'API fonctionne
 });
+// Authentifie un utilisateur et renvoie un token JWT si les identifiants sont valides
+const authUserBis = (req, res) => {
+    const { email, password } = req.body // Extrait email et mot de passe de la requête
+    console.log(`email = ${email} password = ${password}`);
+    // Vérifie si l'utilisateur existe et si le mot de passe correspond
+        // Si authentification réussie, renvoie les infos de l'utilisateur avec un token
+        res.json({
+            _id: "test",
+            name: "test",
+            email: "test@gmail.com",
+            isAdmin: "true"
+        })
+
+    
+}
+app.post('/testPost',authUserBis)
 
 // Utilise les routes définies pour les produits, les utilisateurs et les commandes
 app.use('/api/products', productRoutes); // Associe les routes liées aux produits à l'URL /api/products
