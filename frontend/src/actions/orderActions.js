@@ -21,7 +21,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
         };
 
         // Envoi de la requête POST pour créer la commande avec l'objet de la commande et la configuration
-        const { data } = await axios.post(`/api/orders`, order, config);
+        const { data } = await axios.post(`https://projet-final-backend.vercel.app/api/orders`, order, config);
 
         // Dispatch de l'action de succès avec les données de la nouvelle commande comme payload
         dispatch({
