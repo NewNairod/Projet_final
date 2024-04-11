@@ -1,47 +1,49 @@
-// Importez les hooks et composants nécessaires depuis React, React-Redux, React-Router et React-Bootstrap
-import React, { useState } from 'react'; 
-import { useDispatch, useSelector } from 'react-redux'; 
-import { LinkContainer } from 'react-router-bootstrap'; 
-import { Navbar, Nav, Container, NavDropdown, FormControl, Form, InputGroup, Button } from 'react-bootstrap'; 
-import { useNavigate } from 'react-router-dom'; 
-import { logout } from '../actions/userActions'; 
+import React, { useState } from 'react'; // Importation des hooks useState pour gérer l'état local
+import { useDispatch, useSelector } from 'react-redux'; // Importation des hooks useDispatch et useSelector pour interagir avec Redux
+import { LinkContainer } from 'react-router-bootstrap'; // Importation de LinkContainer pour gérer les liens avec React Router Bootstrap
+import { Navbar, Nav, Container, NavDropdown, FormControl, Form, InputGroup, Button } from 'react-bootstrap'; // Importation des composants de la barre de navigation et du formulaire de recherche depuis React Bootstrap
+import { useNavigate } from 'react-router-dom'; // Importation du hook useNavigate pour la navigation programmatique
+import { logout } from '../actions/userActions'; // Importation de l'action de déconnexion depuis les actions Redux
 
 const Header = () => {
-    const dispatch = useDispatch(); 
-    const navigate = useNavigate(); 
-    const [search, setSearch] = useState(''); 
+    const dispatch = useDispatch(); // Initialisation de useDispatch pour envoyer des actions Redux
+    const navigate = useNavigate(); // Initialisation de useNavigate pour la navigation programmatique
+    const [search, setSearch] = useState(''); // Initialisation de l'état local search avec useState
 
-    // Accès aux informations de l'utilisateur depuis l'état global
-    const userLogin = useSelector((state) => state.userLogin); 
-    const { userInfo } = userLogin; 
+    const userLogin = useSelector((state) => state.userLogin); // Extraction des informations de connexion utilisateur depuis le store Redux
+    const { userInfo } = userLogin; // Extraction des informations de l'utilisateur connecté
 
-    // Gère la déconnexion de l'utilisateur
+    // Fonction pour gérer le clic sur le bouton de déconnexion
     const logoutHandler = () => {
-        dispatch(logout()); 
+        dispatch(logout()); // Dispatch de l'action de déconnexion
     };
 
-    // Mise à jour de l'état local lors de la saisie dans le champ de recherche
+    // Fonction pour gérer les modifications dans le champ de recherche
     const handleSearchChange = (e) => {
-        setSearch(e.target.value); 
+        setSearch(e.target.value); // Mise à jour de l'état local search avec la valeur du champ de recherche
     };
 
-    // Soumission de la recherche et navigation vers la page de résultats
+    // Fonction pour gérer la soumission du formulaire de recherche
     const handleSearchSubmit = (e) => {
-        e.preventDefault(); 
-        if (search.trim()) {
-            navigate(`/?search=${search}`);
+        e.preventDefault(); // Empêche le comportement par défaut du formulaire
+        if(search.trim()) { // Vérifie si le champ de recherche n'est pas vide
+            navigate(`/?search=${search}`); // Navigation vers la route de recherche avec le terme de recherche
         } else {
-            navigate('/');
+            navigate('/'); // Navigation vers la page d'accueil si le champ de recherche est vide
         }
     };
 
+    // Rendu de la barre de navigation
     return (
         <header>
+            {/* Barre de navigation avec React Bootstrap */}
             <Navbar bg='dark' variant='dark' collapseOnSelect>
                 <Container>
+                    {/* Logo de la boutique avec lien vers la page d'accueil */}
                     <LinkContainer to='/'>
-                        <Navbar.Brand>Goodies for Mangas</Navbar.Brand>
+                        <Navbar.Brand>Goodies for mangas</Navbar.Brand>
                     </LinkContainer>
+                    {/* Formulaire de recherche */}
                     <Form inline onSubmit={handleSearchSubmit}>
                         <InputGroup>
                             <FormControl
@@ -51,28 +53,37 @@ const Header = () => {
                                 onChange={handleSearchChange}
                                 value={search}
                             />
-                            <Button type="submit" variant='outline-success'>Rechercher</Button>
+                            <Button type="submit" style={{ backgroundColor: 'red', borderColor: 'red', color: 'white' }}>Rechercher</Button>
                         </InputGroup>
                     </Form>
+                    {/* Bouton de menu déroulant pour les options utilisateur */}
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
+                        {/* Liens de navigation */}
                         <Nav className='ml-auto'>
+                            {/* Lien vers le panier */}
                             <LinkContainer to='/cart'>
-                                <Nav.Link><i className='fas fa-shopping-cart'></i> Panier</Nav.Link>
+                                <Nav.Link><i className='fas fa-shopping-cart'></i>Panier</Nav.Link>
                             </LinkContainer>
+                            {/* Menu déroulant pour les options utilisateur */}
                             {userInfo ? (
+                                // Options utilisateur connecté
                                 <NavDropdown title={userInfo.name} id='username'>
+                                    {/* Lien vers le profil utilisateur */}
                                     <LinkContainer to='/profile'>
                                         <NavDropdown.Item>Profil</NavDropdown.Item>
                                     </LinkContainer>
+                                    {/* Lien vers la liste de favoris */}
                                     <LinkContainer to='/favorites'>
                                         <NavDropdown.Item>Favoris</NavDropdown.Item>
                                     </LinkContainer>
+                                    {/* Option de déconnexion */}
                                     <NavDropdown.Item onClick={logoutHandler}>Déconnexion</NavDropdown.Item>
                                 </NavDropdown>
                             ) : (
+                                // Lien vers la page de connexion si l'utilisateur n'est pas connecté
                                 <LinkContainer to='/login'>
-                                    <Nav.Link><i className='fas fa-user'></i> Connexion</Nav.Link>
+                                    <Nav.Link><i className='fas fa-user'></i>Connexion</Nav.Link>
                                 </LinkContainer>
                             )}
                         </Nav>
