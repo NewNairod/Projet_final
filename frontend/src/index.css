@@ -5,6 +5,10 @@ body, h1, h2, h3, p {
   padding: 0;
 }
 
+header {
+  width: 100%; /* Assure que le header prend toute la largeur */
+}
+
 main {
   padding: 1rem;
   min-height: 80vh; /* Adaptatif à la hauteur de l'écran */

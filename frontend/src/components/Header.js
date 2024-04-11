@@ -38,7 +38,7 @@ const Header = () => {
         <header>
             {/* Barre de navigation avec React Bootstrap */}
             <Navbar bg='dark' variant='dark' collapseOnSelect>
-                <Container fluid>
+                <Container>
                     {/* Logo de la boutique avec lien vers la page d'accueil */}
                     <LinkContainer to='/'>
                         <Navbar.Brand>Goodies for mangas</Navbar.Brand>
