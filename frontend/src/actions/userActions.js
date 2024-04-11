@@ -37,7 +37,7 @@ export const login = (email, password) => async (dispatch) => {
         };
 
         // Requête POST à l'API pour la connexion avec les informations d'identification
-        const { data } = await axios.post(`/api/users/login`, { email, password }, config);
+        const { data } = await axios.post(`https://projet-final-backend.vercel.app/api/users/login`, { email, password }, config);
 
         // Dispatch de l'action de succès de connexion avec les données utilisateur
         dispatch({
