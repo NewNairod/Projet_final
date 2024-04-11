@@ -17,7 +17,7 @@ const PaymentForm = ({ totalPrice, navigate }) => {
     }
 
     try {
-      const response = await fetch('/api/orders/create-payment-intent', {
+      const response = await fetch('https://projet-final-backend.vercel.app/api/orders/create-payment-intent', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: Math.round(totalPrice * 100) }), // Le montant est attendu en centimes pour Stripe

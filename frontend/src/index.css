@@ -12,6 +12,7 @@ header {
 footer {
   width: fit-content; /* Assure que le header prend toute la largeur */
 }
+
 .navbar-expand .navbar-nav .dropdown-menu
   {
     width: fit-content;
