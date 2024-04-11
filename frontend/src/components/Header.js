@@ -67,20 +67,30 @@ const Header = () => {
                             </LinkContainer>
                             {/* Menu déroulant pour les options utilisateur */}
                             {userInfo ? (
-                                // Options utilisateur connecté
-                                <NavDropdown title={userInfo.name} id='username'>
-                                    {/* Lien vers le profil utilisateur */}
+                                <>
+                                    {/* Menu pour grands écrans */}
+                                    <NavDropdown title={userInfo.name} id='username' className="d-none d-lg-block">
                                     <LinkContainer to='/profile'>
                                         <NavDropdown.Item>Profil</NavDropdown.Item>
                                     </LinkContainer>
-                                    {/* Lien vers la liste de favoris */}
                                     <LinkContainer to='/favorites'>
                                         <NavDropdown.Item>Favoris</NavDropdown.Item>
                                     </LinkContainer>
-                                    {/* Option de déconnexion */}
                                     <NavDropdown.Item onClick={logoutHandler}>Déconnexion</NavDropdown.Item>
-                                </NavDropdown>
-                            ) : (
+                                    </NavDropdown>
+                                    
+                                    {/* Menu intégré pour petits écrans */}
+                                    <div className="d-lg-none">
+                                    <LinkContainer to='/profile'>
+                                        <Nav.Link>Profil</Nav.Link>
+                                    </LinkContainer>
+                                    <LinkContainer to='/favorites'>
+                                        <Nav.Link>Favoris</Nav.Link>
+                                    </LinkContainer>
+                                    <Nav.Link onClick={logoutHandler}>Déconnexion</Nav.Link>
+                                    </div>
+                                </>
+                                ) : (
                                 // Lien vers la page de connexion si l'utilisateur n'est pas connecté
                                 <LinkContainer to='/login'>
                                     <Nav.Link><i className='fas fa-user'></i>Connexion</Nav.Link>
