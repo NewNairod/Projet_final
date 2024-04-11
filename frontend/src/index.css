@@ -9,6 +9,13 @@ header {
   width: fit-content; /* Assure que le header prend toute la largeur */
 }
 
+footer {
+  width: fit-content; /* Assure que le header prend toute la largeur */
+}
+.navbar-expand .navbar-nav .dropdown-menu
+  {
+    width: fit-content;
+  }
 main {
   padding: 1rem;
   min-height: 80vh; /* Adaptatif à la hauteur de l'écran */
@@ -73,6 +80,13 @@ h3 {
   }
   header {
     width: 100%; /* Assure que le header prend toute la largeur */
+  }
+  footer {
+    width: 100%; /* Assure que le header prend toute la largeur */
+  }
+  .navbar-expand .navbar-nav .dropdown-menu
+  {
+    width: 100%;
   }
   .addButton {
     float: right;
