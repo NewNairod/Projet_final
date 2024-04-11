@@ -5,7 +5,9 @@ import store from './store.js'
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import { inject } from '@vercel/analytics';
+ 
+inject();
 // Crée un "root" ReactDOM pour monter l'application React dans le DOM
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
