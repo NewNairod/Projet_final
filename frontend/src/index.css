@@ -26,7 +26,7 @@ h3 {
   font-size: 1rem;
 }
 
-.rating span, .filter-sidebar h2, .filter-sidebar form .form-label {
+.filter-sidebar h2, .filter-sidebar form .form-label {
   display: block; /* Assure que chaque élément est sur une nouvelle ligne sur les petits écrans */
 }
 
