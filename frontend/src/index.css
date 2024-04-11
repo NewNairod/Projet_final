@@ -1,99 +1,54 @@
-/* Définit la hauteur minimale de la section principale de la page */
-main {
-  min-height: 80vh;
+/* Styles de base (mobile-first) */
+
+body, h1, h2, h3, p {
+  margin: 0;
+  padding: 0;
 }
 
-/* Styles pour différents niveaux de titres */
-h3 {
-  padding: 1rem 0;
+main {
+  padding: 1rem;
+  min-height: 80vh; /* Adaptatif à la hauteur de l'écran */
 }
 
 h1 {
-  font-size: 1.8rem;
-  padding: 1rem;
+  font-size: 1.5rem; /* Taille plus petite pour les mobiles */
 }
 
 h2 {
-  font-size: 1.4rem;
-  padding: 0.5rem;
+  font-size: 1.25rem;
 }
 
-/* Marge entre les éléments span à l'intérieur d'un élément avec la classe 'rating' */
-.rating span {
-  margin: 0.1rem;
+h3 {
+  font-size: 1rem;
 }
 
-/* Styles pour la barre latérale de filtres */
+.rating span, .filter-sidebar h2, .filter-sidebar form .form-label {
+  display: block; /* Assure que chaque élément est sur une nouvelle ligne sur les petits écrans */
+}
+
 .filter-sidebar {
-  background-color: #f8f9fa; /* Couleur de fond pour la sidebar */
-  padding: 1rem;
-  border-right: 1px solid #ddd; /* Séparation visuelle entre les filtres et les produits */
+  background-color: #f8f9fa;
   margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-right: none; /* Pas de bordure pour les petits écrans */
 }
 
-/* Styles pour les titres dans la sidebar */
-.filter-sidebar h2 {
-  font-size: 1.5rem;
-  color: #333; /* Couleur de texte pour les titres dans la sidebar */
-  margin-bottom: 1rem;
-}
-
-/* Styles pour le formulaire dans la sidebar */
-.filter-sidebar form {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Styles pour les différents éléments du formulaire */
+/* Réduit la taille de la bordure pour les petits écrans */
 .filter-sidebar form .form-group {
-  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
 }
 
-.filter-sidebar form .form-label {
-  font-weight: bold; /* Rend le texte des labels en gras */
-  color: #555; /* Couleur de texte pour les labels */
-}
-
-.filter-sidebar form .form-control {
-  border: 1px solid #ccc; /* Couleur de bordure pour les champs de sélection */
-}
-
-/* Styles pour le bouton 'Appliquer les filtres' */
-.filter-sidebar form .btn-primary {
-  background-color: #dc3545; /* Couleur de fond */
-  border-color: #dc3545; /* Couleur de bordure */
-}
-
-/* Styles au survol pour le bouton 'Appliquer les filtres' */
-.filter-sidebar form .btn-primary:hover {
-  background-color: #c82333; /* Couleur de fond au survol */
-  border-color: #bd2130; /* Couleur de bordure au survol */
-}
-
-/* Styles pour un bouton avec une couleur de fond rouge */
-.redButton {
-  background-color: red;
-  border-color: red;
-}
-
-/* Styles pour un bouton d'ajout avec une couleur de fond rouge */
-.addButton {
-  float: right;
-  background-color: red;
-  color: white;
-}
-
-/* Styles pour un bouton favori avec une couleur de fond rouge */
-.btn-favorite {
+/* Boutons */
+.redButton, .addButton, .btn-favorite {
   background-color: red;
   border-color: red;
   color: white;
+  width: 100%;
+  margin-top: 0.5rem; /* Ajoute une marge en haut */
 }
-/* Styles au survol pour un bouton favori avec une couleur de fond rouge */
-.btn-favorite:hover {
+
+.redButton:hover, .addButton:hover, .btn-favorite:hover {
   background-color: darkred;
-  border-color: darkred;
-  color: white;
 }
 
 .payment-success-container {
@@ -106,12 +61,44 @@ h2 {
   color: green;
 }
 
-h2 {
-  margin-top: 20px;
-  margin-bottom: 10px;
+/* Media queries pour tablettes et ordinateurs de bureau */
+@media (min-width: 576px) {
+  .filter-sidebar {
+    border-right: 1px solid #ddd;
+    padding: 1rem;
+  }
+
+  .addButton {
+    float: right;
+    width: auto;
+    margin-top: 0;
+  }
 }
 
-p {
-  margin-bottom: 20px;
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  .rating span, .filter-sidebar h2, .filter-sidebar form .form-label {
+    display: inline-block; /* Affiche les éléments côte à côte pour les écrans plus larges */
+  }
 }
 
+@media (min-width: 992px) {
+  /* Styles spécifiques pour les ordinateurs de bureau */
+}
+
+@media (min-width: 1200px) {
+  /* Styles pour les grands écrans, comme les moniteurs larges */
+}
+
+/* Ajustements supplémentaires au besoin pour différents composants */
