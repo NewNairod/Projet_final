@@ -1,5 +1,4 @@
 /* Styles de base (mobile-first) */
-
 body, h1, h2, h3, p {
   margin: 0;
   padding: 0;
@@ -13,11 +12,14 @@ footer {
   width: fit-content; /* Assure que le header prend toute la largeur */
   box-sizing: content-box;
 }
-
+.containerNavbar  {
+flex-wrap: unset;
+}
 .navbar-expand .navbar-nav .dropdown-menu
   {
     width: fit-content;
   }
+  
 main {
   padding: 1rem;
   min-height: 80vh; /* Adaptatif à la hauteur de l'écran */
