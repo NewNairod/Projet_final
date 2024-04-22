@@ -80,7 +80,7 @@ const Header = () => {
                                     </NavDropdown>
                                     
                                     {/* Menu intégré pour petits écrans */}
-                                    <div className="d-lg-none">
+                                    <div className="d-lg-none flexClass">
                                     <LinkContainer to='/profile'>
                                         <Nav.Link>Profil</Nav.Link>
                                     </LinkContainer>

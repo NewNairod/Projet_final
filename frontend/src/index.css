@@ -4,7 +4,7 @@ body, h1, h2, h3, p {
   padding: 0;
 }
 @media (max-width: 575px) {
-.dg-l-none {
+.flexClass {
   display: flex !important;
 }
 .direction-column{
