@@ -13,7 +13,7 @@ footer {
   box-sizing: content-box;
 }
 .containerNavbar  {
-flex-wrap: unset;
+flex-wrap: unset !important;
 }
 .navbar-expand .navbar-nav .dropdown-menu
   {
