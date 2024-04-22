@@ -3,12 +3,13 @@ body, h1, h2, h3, p {
   margin: 0;
   padding: 0;
 }
-
+@media (max-width: 575px) {
 .dg-l-none {
   display: flex;
 }
 .direction-column{
   flex-direction: column !important;
+}
 }
 header {
   width: fit-content; /* Assure que le header prend toute la largeur */
