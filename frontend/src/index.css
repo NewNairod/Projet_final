@@ -4,6 +4,12 @@ body, h1, h2, h3, p {
   padding: 0;
 }
 
+.dg-l-none {
+  display: flex;
+}
+.direction-column{
+  flex-direction: column !important;
+}
 header {
   width: fit-content; /* Assure que le header prend toute la largeur */
 }
@@ -78,6 +84,9 @@ h3 {
 
 /* Media queries pour tablettes et ordinateurs de bureau */
 @media (min-width: 576px) {
+  .navClass {
+    margin-left: auto !important;
+  }
   .filter-sidebar {
     border-right: 1px solid #ddd;
     padding: 1rem;
