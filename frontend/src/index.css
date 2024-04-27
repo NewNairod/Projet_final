@@ -14,7 +14,6 @@ body, h1, h2, h3, p {
 header {
   width: fit-content; /* Assure que le header prend toute la largeur */
 }
-
 footer {
   width: fit-content; /* Assure que le header prend toute la largeur */
   box-sizing: content-box;
@@ -26,40 +25,32 @@ flex-wrap: wrap !important;
   {
     width: fit-content;
   }
-  
 main {
   padding: 1rem;
   min-height: 80vh; /* Adaptatif à la hauteur de l'écran */
 }
-
 h1 {
   font-size: 1.5rem; /* Taille plus petite pour les mobiles */
 }
-
 h2 {
   font-size: 1.25rem;
 }
-
 h3 {
   font-size: 1rem;
 }
-
 .filter-sidebar h2, .filter-sidebar form .form-label {
   display: block; /* Assure que chaque élément est sur une nouvelle ligne sur les petits écrans */
 }
-
 .filter-sidebar {
   background-color: #f8f9fa;
   margin-bottom: 1rem;
   padding: 0.5rem;
   border-right: none; /* Pas de bordure pour les petits écrans */
 }
-
 /* Réduit la taille de la bordure pour les petits écrans */
 .filter-sidebar form .form-group {
   border-bottom: 1px solid #ddd;
 }
-
 /* Boutons */
 .redButton, .addButton, .btn-favorite {
   background-color: red;
@@ -68,21 +59,17 @@ h3 {
   width: 100%;
   margin-top: 0.5rem; /* Ajoute une marge en haut */
 }
-
 .redButton:hover, .addButton:hover, .btn-favorite:hover {
   background-color: darkred;
 }
-
 .payment-success-container {
   padding-top: 50px;
   padding-bottom: 50px;
 }
-
 .success-icon {
   font-size: 80px;
   color: green;
 }
-
 /* Media queries pour tablettes et ordinateurs de bureau */
 @media (min-width: 576px) {
   .navClass {
@@ -108,7 +95,6 @@ h3 {
     margin-top: 0;
   }
 }
-
 @media (min-width: 768px) {
   h1 {
     font-size: 2rem;
@@ -126,7 +112,6 @@ h3 {
     display: inline-block; /* Affiche les éléments côte à côte pour les écrans plus larges */
   }
 }
-
 @media (min-width: 992px) {
   /* Styles spécifiques pour les ordinateurs de bureau */
 }
@@ -134,5 +119,3 @@ h3 {
 @media (min-width: 1200px) {
   /* Styles pour les grands écrans, comme les moniteurs larges */
 }
-
-/* Ajustements supplémentaires au besoin pour différents composants */

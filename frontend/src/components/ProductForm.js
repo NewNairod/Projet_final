@@ -84,22 +84,21 @@ const FormProduct = () => {
 
             <Form.Group controlId='category'>
                 <Form.Label>Catégorie</Form.Label>
-                <Form.Control
-                    type='text'
-                    placeholder='Entrez la catégorie du produit'
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                ></Form.Control>
+                <Form.Control as="select" value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <option value="">Sélectionnez une catégorie</option>
+                    <option value="Mangas">Mangas</option>
+                    <option value="Figurines">Figurines</option>
+                </Form.Control>
             </Form.Group>
 
             <Form.Group controlId='type'>
                 <Form.Label>Type</Form.Label>
-                <Form.Control
-                    type='text'
-                    placeholder='Entrez le type du produit'
-                    value={type}
-                    onChange={(e) => setType(e.target.value)}
-                ></Form.Control>
+                <Form.Control as="select" value={type} onChange={(e) => setType(e.target.value)}>
+                    <option value="">Sélectionnez un type</option>
+                    <option value="Shonen">Shonen</option>
+                    <option value="Seinen">Seinen</option>
+                    {/* Ajoutez d'autres types selon vos besoins */}
+                </Form.Control>
             </Form.Group>
 
             <Form.Group controlId='countInStock'>
