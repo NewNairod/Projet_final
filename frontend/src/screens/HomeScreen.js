@@ -60,6 +60,7 @@ const HomeScreen = () => {
                             <option value=''>Tous</option>
                             <option value='Mangas'>Mangas</option>
                             <option value='Figurines'>Figurines</option>
+                            <option value='Affiche'>Affiche</option>
                             {/* Autres catégories */}
                         </Form.Control>
                     </Form.Group>

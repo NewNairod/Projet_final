@@ -88,6 +88,7 @@ const FormProduct = () => {
                     <option value="">Sélectionnez une catégorie</option>
                     <option value="Mangas">Mangas</option>
                     <option value="Figurines">Figurines</option>
+                    <option value='Affiche'>Affiche</option>
                 </Form.Control>
             </Form.Group>
 
