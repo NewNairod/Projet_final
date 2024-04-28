@@ -24,6 +24,7 @@ const PlaceOrderScreen = () => {
 
     const orderCreate = useSelector(state => state.orderCreate);
     const { order, success } = orderCreate;
+    const userInfo = useSelector(state => state.userLogin.userInfo);
 
 // Calculer les totaux localement sans modifier l'état global de Redux
 const itemsPrice = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
@@ -43,18 +44,29 @@ const totalPrice = itemsPrice + shippingPrice + taxPrice;
         };
     }, [dispatch, navigate, order, success]);
 
-    const placeOrderHandlerAndShowForm = () => {
-        dispatch(createOrder({
-          orderItems: cart.cartItems,
-          shippingAddress: cart.shippingAddress,
-          paymentMethod: cart.paymentMethod,
-          itemsPrice: itemsPrice.toFixed(2),
-          shippingPrice: shippingPrice.toFixed(2),
-          taxPrice: taxPrice.toFixed(2),
-          totalPrice: totalPrice.toFixed(2),
-        }))
-      setShowPaymentForm(true); // Afficher le formulaire de paiement
-    };
+        const placeOrderHandlerAndShowForm = () => {
+            if (!userInfo) {
+                alert('Vous n\'êtes pas autorisé.');
+                return;
+            }
+    
+            dispatch(createOrder({
+                orderItems: cartItems,
+                shippingAddress: cart.shippingAddress,
+                paymentMethod: cart.paymentMethod,
+                itemsPrice: itemsPrice.toFixed(2),
+                shippingPrice: shippingPrice.toFixed(2),
+                taxPrice: taxPrice.toFixed(2),
+                totalPrice: totalPrice.toFixed(2),
+            })).then(() => {
+                if (success) {
+                    setShowPaymentForm(true);
+                } else {
+                    alert('Erreur lors de la création de la commande');
+                }
+            });
+        };
+    
 
     return (
         <>
