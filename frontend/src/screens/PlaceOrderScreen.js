@@ -44,23 +44,18 @@ const totalPrice = itemsPrice + shippingPrice + taxPrice;
         };
     }, [dispatch, navigate, order, success]);
 
-        const placeOrderHandlerAndShowForm = () => {
-            dispatch(createOrder({
-                orderItems: cartItems,
-                shippingAddress: cart.shippingAddress,
-                paymentMethod: cart.paymentMethod,
-                itemsPrice: itemsPrice.toFixed(2),
-                shippingPrice: shippingPrice.toFixed(2),
-                taxPrice: taxPrice.toFixed(2),
-                totalPrice: totalPrice.toFixed(2),
-            })).then(() => {
-                if (success) {
-                    setShowPaymentForm(true);
-                } else {
-                    alert('Erreur lors de la création de la commande');
-                }
-            });
-        };
+    const placeOrderHandlerAndShowForm = () => {
+        dispatch(createOrder({
+          orderItems: cart.cartItems,
+          shippingAddress: cart.shippingAddress,
+          paymentMethod: cart.paymentMethod,
+          itemsPrice: itemsPrice.toFixed(2),
+          shippingPrice: shippingPrice.toFixed(2),
+          taxPrice: taxPrice.toFixed(2),
+          totalPrice: totalPrice.toFixed(2),
+        }))
+      setShowPaymentForm(true); // Afficher le formulaire de paiement
+    };
     
 
     return (
