@@ -1,12 +1,10 @@
-import React, { useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Message from '../components/Message.js';
 import CheckoutSteps from '../components/CheckoutSteps.js';
 import { Row, Col, ListGroup, Image, Card, ListGroupItem, Button } from 'react-bootstrap';
 import { createOrder } from '../actions/orderActions.js';
-import { CART_RESET } from '../constants/cartConstants';
-import { ORDER_RESET } from '../constants/orderConstants';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import PaymentForm from '../components/PaymentForm.js';
@@ -21,9 +19,6 @@ const PlaceOrderScreen = () => {
     // Sélectionnez les données nécessaires à partir de l'état Redux
     const cart = useSelector(state => state.cart);
     const { cartItems} = cart;
-
-    const orderCreate = useSelector(state => state.orderCreate);
-    const { order, success } = orderCreate;
     // const userInfo = useSelector(state => state.userLogin.userInfo);
 
 // Calculer les totaux localement sans modifier l'état global de Redux
@@ -32,14 +27,6 @@ const shippingPrice = itemsPrice > 100 ? 0 : 10; // frais d'expédition fictifs
 const taxPrice = 0.15 * itemsPrice; // taxe fictive
 const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
-
-    // Réinitialiser l'état local et Redux lorsqu'on quitte la page
-    useEffect(() => {
-        return () => {
-            dispatch({ type: ORDER_RESET });
-            dispatch({ type: CART_RESET });
-        };
-    }, [dispatch, order]);
 
     const placeOrderHandlerAndShowForm = () => {
         dispatch(createOrder({
