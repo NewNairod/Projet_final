@@ -35,14 +35,11 @@ const totalPrice = itemsPrice + shippingPrice + taxPrice;
 
     // Réinitialiser l'état local et Redux lorsqu'on quitte la page
     useEffect(() => {
-        if (success) {
-            navigate(`/order/${order._id}`);
-        }
         return () => {
             dispatch({ type: ORDER_RESET });
             dispatch({ type: CART_RESET });
         };
-    }, [dispatch, navigate, order, success]);
+    }, [dispatch, order]);
 
     const placeOrderHandlerAndShowForm = () => {
         dispatch(createOrder({
