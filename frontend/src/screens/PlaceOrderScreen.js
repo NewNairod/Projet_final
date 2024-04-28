@@ -24,7 +24,7 @@ const PlaceOrderScreen = () => {
 
     const orderCreate = useSelector(state => state.orderCreate);
     const { order, success } = orderCreate;
-    const userInfo = useSelector(state => state.userLogin.userInfo);
+    // const userInfo = useSelector(state => state.userLogin.userInfo);
 
 // Calculer les totaux localement sans modifier l'état global de Redux
 const itemsPrice = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
@@ -45,16 +45,6 @@ const totalPrice = itemsPrice + shippingPrice + taxPrice;
     }, [dispatch, navigate, order, success]);
 
         const placeOrderHandlerAndShowForm = () => {
-            if (!userInfo) {
-                alert('Vous n\'êtes pas autorisé.');
-                return;
-            }
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${userInfo.token}`
-                }
-            };
             dispatch(createOrder({
                 orderItems: cartItems,
                 shippingAddress: cart.shippingAddress,
@@ -63,7 +53,7 @@ const totalPrice = itemsPrice + shippingPrice + taxPrice;
                 shippingPrice: shippingPrice.toFixed(2),
                 taxPrice: taxPrice.toFixed(2),
                 totalPrice: totalPrice.toFixed(2),
-            }, config)).then(() => {
+            })).then(() => {
                 if (success) {
                     setShowPaymentForm(true);
                 } else {
