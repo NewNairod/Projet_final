@@ -16,7 +16,8 @@ export const createOrder = (order) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: userInfo.token, // Utilisation du jeton d'authentification dans l'en-tête
+                Authorization: `Bearer ${userInfo.token}`, // Utilisation du jeton d'authentification dans l'en-tête
+                
             },
         };
 
