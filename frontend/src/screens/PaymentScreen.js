@@ -21,7 +21,7 @@ const PaymentScreen = () => {
     }
 
     // State pour stocker la méthode de paiement sélectionnée
-    const [paymentMethod, setPaymentMethod] = useState('PayPal');
+    const [paymentMethod, setPaymentMethod] = useState('Stripe');
 
     // Dispatch pour lancer l'action Redux
     const dispatch = useDispatch();
@@ -46,8 +46,8 @@ const PaymentScreen = () => {
                         <FormCheck
                             type='radio'
                             label='Stripe ou Carte bancaire'
-                            id='PayPal' name='paymentMethod'
-                            value='PayPal'
+                            id='Stripe' name='paymentMethod'
+                            value='Stripe'
                             checked
                             onChange={(e) => setPaymentMethod(e.target.value)}>
                         </FormCheck>
