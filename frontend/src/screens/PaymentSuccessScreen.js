@@ -12,6 +12,8 @@ const PaymentSuccessScreen = () => {
     const continueShoppingHandler = () => {
         // Dispatch l'action pour réinitialiser le panier
         dispatch({ type: CART_RESET });
+        //remove les items du local
+        localStorage.removeItem('cartItems');
         // Redirection vers la page d'accueil
         navigate('/');
       };
