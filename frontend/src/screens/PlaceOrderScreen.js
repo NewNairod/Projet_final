@@ -49,7 +49,12 @@ const totalPrice = itemsPrice + shippingPrice + taxPrice;
                 alert('Vous n\'êtes pas autorisé.');
                 return;
             }
-    
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${userInfo.token}`
+                }
+            };
             dispatch(createOrder({
                 orderItems: cartItems,
                 shippingAddress: cart.shippingAddress,
@@ -58,7 +63,7 @@ const totalPrice = itemsPrice + shippingPrice + taxPrice;
                 shippingPrice: shippingPrice.toFixed(2),
                 taxPrice: taxPrice.toFixed(2),
                 totalPrice: totalPrice.toFixed(2),
-            })).then(() => {
+            }, config)).then(() => {
                 if (success) {
                     setShowPaymentForm(true);
                 } else {
